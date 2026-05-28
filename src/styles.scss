@@ -1,0 +1,236 @@
+@use 'bootstrap/scss/bootstrap';
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+
+/* =====================================================
+   DARK THEME (DEFAULT)
+===================================================== */
+
+:root {
+
+  /* =========================
+     BACKGROUND
+  ========================== */
+
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #141414;
+  --bg-tertiary: #1f1f1f;
+  --bg-hover: #262626;
+
+  /* =========================
+     TEXT
+  ========================== */
+
+  --text-primary: #ffffff;
+  --text-secondary: #d4d4d4;
+  --text-muted: #9f9f9f;
+
+  /* =========================
+     BORDER
+  ========================== */
+
+  --border-color: #2a2a2a;
+
+  /* =========================
+     BRAND
+  ========================== */
+
+  --accent: #dd0031;
+  --accent-hover: #ff1e56;
+
+  --active-link: #d8b4fe;
+
+  /* =========================
+     LAYOUT
+  ========================== */
+
+  --sidebar-width: 200px;
+
+  --header-height: 64px;
+
+  /* =========================
+     RADIUS
+  ========================== */
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* =========================
+     TRANSITION
+  ========================== */
+
+  --transition: 0.2s ease;
+}
+
+/* =====================================================
+   LIGHT THEME
+===================================================== */
+
+.light-theme {
+
+  /* =========================
+     BACKGROUND
+  ========================== */
+
+  --bg-primary: #ffffff;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f5f5f5;
+  --bg-hover: #ebebeb;
+
+  /* =========================
+     TEXT
+  ========================== */
+
+  --text-primary: #000000;
+  --text-secondary: #2c2c2c;
+  --text-muted: #666666;
+
+  /* =========================
+     BORDER
+  ========================== */
+
+  --border-color: #e4e4e4;
+
+  /* =========================
+     BRAND
+  ========================== */
+
+  --active-link: #9333ea;
+}
+
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
+}
+
+/* =====================================================
+   HTML + BODY
+===================================================== */
+
+html,
+body {
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+
+  background: var(--bg-primary);
+
+  color: var(--text-primary);
+
+  font-family:
+    Inter,
+    system-ui,
+    sans-serif;
+
+  font-size: 14px;
+
+  transition:
+    background var(--transition),
+    color var(--transition);
+}
+
+body {
+
+  text-rendering: optimizeLegibility;
+
+  -webkit-font-smoothing: antialiased;
+
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* =====================================================
+   ROOT
+===================================================== */
+
+app-root {
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+}
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+a {
+
+  text-decoration: none;
+
+  color: inherit;
+}
+
+ul,
+ol {
+
+  list-style: none;
+
+  margin: 0;
+  padding: 0;
+}
+
+button {
+
+  border: none;
+
+  outline: none;
+
+  background: none;
+
+  color: inherit;
+
+  font: inherit;
+
+  cursor: pointer;
+}
+
+input,
+textarea {
+
+  border: none;
+
+  outline: none;
+
+  background: transparent;
+
+  color: inherit;
+
+  font: inherit;
+}
+
+/* =====================================================
+   SCROLLBAR
+===================================================== */
+
+::-webkit-scrollbar {
+
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+
+  background: #303030;
+
+  border-radius: 20px;
+}
+
+.light-theme ::-webkit-scrollbar-thumb {
+
+  background: #cfcfcf;
+}
+

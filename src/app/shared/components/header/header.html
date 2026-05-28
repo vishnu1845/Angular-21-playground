@@ -1,0 +1,46 @@
+<header class="header">
+
+  <div class="header-left">
+
+    <div class="workspace-title">
+      Angular Workspace!
+    </div>
+
+  </div>
+
+  <div class="header-right">
+
+    <!-- Search Box -->
+    <div class="search-box">
+
+      <i class="fa-solid fa-magnifying-glass"></i>
+
+      <input
+        type="text"
+        placeholder="Search topics..."
+        [ngModel]="searchService.searchTerm()"
+        (ngModelChange)="searchService.setSearchTerm($event)"
+      />
+
+    </div>
+
+    <!-- Theme Toggle -->
+    <button
+      class="theme-btn"
+      (click)="themeService.toggleTheme()">
+
+      @if (themeService.isDarkMode()) {
+
+        <i class="fa-solid fa-sun"></i>
+
+      } @else {
+
+        <i class="fa-solid fa-moon"></i>
+
+      }
+
+    </button>
+
+  </div>
+
+</header>

@@ -1,0 +1,166 @@
+.sidebar {
+
+  width: var(--sidebar-width);
+
+  height: 100vh;
+
+  background: var(--bg-secondary);
+
+  border-right: 1.5px solid var(--border-color);
+
+  padding: 1rem 0.8rem;
+
+  overflow-y: auto;
+
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+
+    display: none;
+  }
+}
+
+/* =========================
+   LOGO
+========================= */
+
+.logo {
+
+  font-size: 1.55rem;
+
+  font-weight: 700;
+
+  margin-bottom: 2rem;
+
+  padding-left: 0.2rem;
+
+  color: var(--text-primary);
+
+  letter-spacing: -0.5px;
+
+  span {
+
+    color: var(--accent);
+  }
+}
+
+/* =========================
+   MENU
+========================= */
+
+.sidebar-menu {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 1rem;
+}
+
+/* =========================
+   SECTION
+========================= */
+
+.menu-section {
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+/* =========================
+   TITLE
+========================= */
+
+.menu-title {
+
+  font-size: 0.8rem;
+
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.5px;
+
+  color: var(--text-primary);
+
+  margin-bottom: 0.8rem;
+
+  padding-left: 0.2rem;
+}
+
+/* =========================
+   SUBMENU
+========================= */
+
+.submenu {
+
+  border-left: 1px solid var(--border-color);
+
+  margin-left: 0.15rem;
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+/* =========================
+   ITEM
+========================= */
+
+.submenu-item {
+
+  position: relative;
+
+  height: 32px;
+
+  display: flex;
+
+  align-items: center;
+
+  padding-left: 1rem;
+
+  color: var(--text-muted);
+//   color: whitesmoke;
+
+  font-size: 0.92rem;
+
+  font-weight: 600;
+
+  transition: var(--transition);
+
+  &:hover {
+
+    color: var(--text-primary);
+  }
+}
+
+/* =========================
+   ACTIVE
+========================= */
+
+.active-link {
+
+  color: var(--active-link);
+}
+
+/* ACTIVE INDICATOR */
+
+.active-link::before {
+
+  content: '';
+
+  position: absolute;
+
+  left: -1px;
+
+  top: 5px;
+
+  width: 2px;
+
+  height: 22px;
+
+  background: var(--active-link);
+
+  border-radius: 20px;
+}

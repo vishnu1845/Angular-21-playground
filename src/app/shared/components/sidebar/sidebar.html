@@ -1,0 +1,41 @@
+<div class="sidebar">
+
+  <div class="logo">
+    <span>Angular</span>21
+  </div>
+
+  <div class="sidebar-menu">
+
+    @for (item of sidebarItems(); track $index) {
+
+      <div class="menu-section">
+
+        <div class="menu-title">
+          {{ item.title }}
+        </div>
+
+        <div class="submenu">
+
+          @for (child of item.children; track $index) {
+
+            <a
+              class="submenu-item"
+              [routerLink]="child.route"
+              routerLinkActive="active-link"
+            >
+
+              {{ child.label }}
+
+            </a>
+
+          }
+
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+
+</div>
