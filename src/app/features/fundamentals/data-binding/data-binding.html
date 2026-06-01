@@ -1,1 +1,191 @@
-<p>data-binding works!</p>
+<div class="container">
+  <h3>Data Binding — Angular 21</h3>
+  <hr />
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- i. String Interpolation                                 -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section>
+    <h4>A. String Interpolation</h4>
+
+    <!-- Basic expression -->
+    <p>{{ greet }}</p>
+
+    <!-- Signal value -->
+    <p>Username: <strong>{{ userName() }}</strong></p>
+
+    <!-- Expression inside template -->
+    <!-- <p>Upper: <strong>{{ userName().toUpperCase() }}</strong></p> -->
+
+    <!-- Method call -->
+    <!-- <p>Method call: <strong>{{ getUpperName() }}</strong></p> -->
+
+    <!-- JS expression -->
+    <!-- <p>Pi (2 decimals): <strong>{{ pi.toFixed(2) }}</strong></p> -->
+
+    <!-- Date pipe (no pipe imported? use toLocaleDateString) -->
+    <!-- <p>Date: <strong>{{ currentDate.toLocaleDateString() }}</strong></p> -->
+
+    <!-- Ternary -->
+    <!-- <p>Status: <strong>{{ isLoading() ? 'Loading...' : 'Ready' }}</strong></p> -->
+  </section>
+  <br />
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- ii. Property Binding                                    -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section>
+    <h4>B. Property Binding</h4>
+
+    <!-- src binding -->
+    <img [src]="imageUrl" alt="Car" width="200" /><br /><br />
+
+    <!-- disabled binding (signal) -->
+    <button [disabled]="isLoading()" (click)="toggleLoading()">
+      {{ isLoading() ? 'Loading...' : 'Click to Toggle Load' }}
+    </button>
+
+    <!-- title / tooltip binding -->
+    <br /><br />
+    <button [title]="tooltipText()">Hover for tooltip</button>
+
+    <!-- placeholder binding -->
+    <br /><br />
+    <input [placeholder]="inputPlaceholder()" />
+
+    <!-- Angular template binding -->
+    <!-- class binding -->
+    <br /><br />
+    <p [class.highlight]="!isLoading()">
+      Class binding — highlighted when not loading
+    </p>
+
+    <!-- style binding -->
+    <p [style.color]="isLoading() ? 'red' : 'green'">
+      Style binding — color changes with isLoading
+    </p>
+  </section>
+  <br />
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- iii. Event Binding                                      -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section>
+    <h4>C. Event Binding</h4>
+
+    <!-- 1. input event -->
+    <h5>1. (input)</h5>
+    <input type="text" placeholder="Type to update username" (input)="onInputChange($event)" id="userName" />
+    <p>Live Username: <strong>{{ userName1() }}</strong></p>
+
+    <!-- 2. click events -->
+    <h5>2. (click)</h5>
+    <button (click)="onDecrement()" class="me-2 btn btn-secondary">−</button>
+    <button (click)="onReset()" class="me-2 btn btn-secondary">Reset</button>
+    <button (click)="onIncrement()" class=" btn btn-secondary">+</button>
+    <p>Count: <strong>{{ count() }}</strong></p>
+
+    <!-- 3. keyboard events -->
+    <h5>3. (keydown.enter) / (keyup)</h5>
+    <input  type="text"  placeholder="Press Enter to confirm"  (keydown)="onEnterPress($event)"/> <br /><br />
+    <input type="text" placeholder="Press any key to track" (keyup)="onKeyUp($event)" />
+    <p>Last Key: <strong>{{ keyPressed() || '—' }}</strong></p>
+
+    <!-- 4. focus / blur -->
+    <h5>4. (focus) / (blur)</h5>
+    <input  type="text"  placeholder="Focus / blur me" (focus)="focused.set(true)" (blur)="focused.set(false)" />
+    <p>State: <strong>{{ focused() ? '🟢 Focused' : '🔴 Blurred' }}</strong></p>
+
+    <!-- 5. debounced search -->
+    <h5>5. Debounced (input) — 400ms</h5>
+    <input type="text" placeholder="Type to search (debounced)" (input)="onSearch($event)" />
+    <p>Search Term: <strong>{{ searchTerm() || '—' }}</strong></p>
+
+    <!-- 6. mousemove -->
+    <h5>6. (mousemove)</h5>
+    <div
+      style="height:80px; border:1px dashed #aaa; display:flex; align-items:center; justify-content:center;"
+      (mousemove)="onMouseMove($event)"
+    >
+      Move mouse here
+    </div>
+    <p>X: <strong>{{ mousePos().x }}</strong> | Y: <strong>{{ mousePos().y }}</strong></p>
+
+    <!-- 7. form submit -->
+    <h5>7. (submit) — FormData extraction</h5>
+    <form (submit)="onSubmit($event)">
+      <input type="text"  name="userName" placeholder="Username" required />
+      <input type="email" name="email"    placeholder="Email"    required />
+      <button type="submit">Submit</button>
+    </form>
+    @if (submittedData()) {
+      <p>✅ Name: <strong>{{ submittedData()!.userName }}</strong> |
+         Email: <strong>{{ submittedData()!.email }}</strong></p>
+    }
+  </section>
+  <br />
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- iv. Two-Way Binding                                     -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <section>
+    <h4>D. Two-Way Binding</h4>
+
+    <!-- ── OLD WAY ─────────────────────────────────────────── -->
+    <h5>🔴 Old Way — ngModel (classic, still works)</h5>
+
+    <!-- plain ngModel on a regular variable -->
+    <input type="text" [(ngModel)]="ngModelValue" placeholder="ngModel on plain variable" />
+    <p>Value: <strong>{{ ngModelValue }}</strong></p>
+
+    <!-- signal + [(ngModel)] -->
+    <input type="text" [(ngModel)]="username" placeholder="ngModel on signal" />
+    <p>Signal Username: <strong>{{ username() }}</strong></p>
+
+    <!-- manual [value] + (input) on signal object -->
+    <input type="text"   [value]="user().name" (input)="updateName($event)" placeholder="Name" />
+    <p>Name: <strong>{{ user().name }}</strong></p>
+
+    <input type="number" [value]="user().age"  (input)="updateAge($event)"  placeholder="Age" />
+    <p>Age: <strong>{{ user().age }}</strong></p>
+
+    <br />
+
+    <!-- ── NEW WAY ─────────────────────────────────────────── -->
+    <h5>🟢 New Way — model() Signal (Angular 17+, preferred in Angular 21)</h5>
+
+    <!-- model() counter -->
+    <p>model() Counter:</p>
+    <button (click)="updateCount(-1)">−</button>
+    <strong> {{ count2() }} </strong>
+    <button (click)="updateCount(+1)">+</button>
+
+    <!-- model() string -->
+    <br /><br />
+    <input 
+      type="text"
+      [value]="modelName()"
+      (input)="updateModelName($event)"
+      placeholder="model() string binding"
+    />
+    <p>model() Name: <strong>{{ modelName() || '—' }}</strong></p>
+
+    <!-- model() object fields -->
+    <p>model() User Object:</p>
+    <input
+      type="text"
+      [value]="modelUser().name"
+      (input)="updateModelUser('name', $event)"
+      placeholder="model() User Name"
+    />
+    <p>Name: <strong>{{ modelUser().name }}</strong></p>
+
+    <input
+      type="number"
+      [value]="modelUser().age"
+      (input)="updateModelUser('age', $event)"
+      placeholder="model() User Age"
+    />
+    <p>Age: <strong>{{ modelUser().age }}</strong></p>
+  </section>
+</div>

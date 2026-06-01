@@ -1,0 +1,170 @@
+// ─── Google Font import ───────────────────────────────────────
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap');
+
+// ─── Variables ────────────────────────────────────────────────
+$bg:          #0d0f14;
+$card-bg:     #161a23;
+$border:      #2a2f3d;
+$accent:      #4f8ef7;
+$accent-glow: rgba(79, 142, 247, 0.25);
+$text:        #e8eaf0;
+$muted:       #6b7280;
+$success:     #34d399;
+$danger:      #f87171;
+$font-body:   'DM Sans', sans-serif;
+$font-title:  'Syne', sans-serif;
+
+// ─── Wrapper ──────────────────────────────────────────────────
+.register-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $bg;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(79, 142, 247, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(99, 102, 241, 0.05) 0%, transparent 50%);
+  font-family: $font-body;
+  padding: 2rem 1rem;
+}
+
+// ─── Card ─────────────────────────────────────────────────────
+.register-card {
+  width: 100%;
+  max-width: 420px;
+  background: $card-bg;
+  border: 1px solid $border;
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.4s ease;
+}
+
+// ─── Header ───────────────────────────────────────────────────
+.card-header-section {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.form-title {
+  font-family: $font-title;
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: $text;
+  margin-bottom: 0.3rem;
+  letter-spacing: -0.5px;
+}
+
+.form-subtitle {
+  color: $muted;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+// ─── Labels ───────────────────────────────────────────────────
+.form-label {
+  color: #a0aab8;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+// ─── Inputs ───────────────────────────────────────────────────
+.form-control {
+  background: #1e2330 !important;
+  border: 1.5px solid $border !important;
+  border-radius: 10px !important;
+  color: $text !important;
+  font-family: $font-body;
+  font-size: 0.95rem;
+  padding: 0.65rem 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &::placeholder { color: #4a5568; }
+
+  &:focus {
+    border-color: $accent !important;
+    box-shadow: 0 0 0 3px $accent-glow !important;
+    outline: none;
+    background: #1e2330 !important;
+  }
+
+  // Bootstrap valid/invalid overrides
+  &.is-valid {
+    border-color: $success !important;
+    box-shadow: none !important;
+    background-image: none !important;
+  }
+
+  &.is-invalid {
+    border-color: $danger !important;
+    box-shadow: none !important;
+    background-image: none !important;
+  }
+}
+
+// ─── Password toggle ──────────────────────────────────────────
+.input-group {
+  .form-control { border-radius: 10px 0 0 10px !important; }
+}
+
+.toggle-btn {
+  background: #1e2330;
+  border: 1.5px solid $border;
+  border-left: none;
+  border-radius: 0 10px 10px 0;
+  color: $muted;
+  font-size: 1rem;
+  padding: 0 0.9rem;
+  transition: background 0.2s;
+
+  &:hover { background: #252b3b; color: $text; }
+}
+
+// ─── Validation messages ──────────────────────────────────────
+.invalid-feedback {
+  color: $danger !important;
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+  display: block !important;
+}
+
+// ─── Submit button ────────────────────────────────────────────
+.submit-btn {
+  background: $accent;
+  border: none;
+  border-radius: 10px;
+  font-family: $font-body;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.75rem;
+  letter-spacing: 0.3px;
+  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+
+  &:hover:not(:disabled) {
+    background: #6a9ef8;
+    box-shadow: 0 4px 20px $accent-glow;
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) { transform: translateY(0); }
+  &:disabled { opacity: 0.6; cursor: not-allowed; }
+}
+
+// ─── Debug box ────────────────────────────────────────────────
+.debug-box {
+  background: #1a1f2e;
+  border: 1px dashed $border;
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  color: $muted;
+  font-size: 0.78rem;
+}
+
+// ─── Animation ────────────────────────────────────────────────
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

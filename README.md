@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Angular21
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.4.
@@ -57,3 +58,7 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+=======
+# Angular-21-playground
+Modern Angular 21 Playground built with Standalone Components, Signals, Zoneless Architecture, SCSS, Bootstrap and Real-Time Angular Concepts.
+>>>>>>> e9f474c7daa751fec3858ce25cb39ce425fb1f87
