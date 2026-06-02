@@ -57,6 +57,11 @@ export const routes: Routes = [
           .then(m => m.DynamicForms)
       },
       {
+        path: 'forms/order-dynamically',
+        loadComponent: () => import('./features/forms/order-dynamically/order-dynamically')
+          .then(m => m.OrderDynamically)
+      },
+      {
         path: 'forms/custom-validators',
         loadComponent: () => import('./features/forms/custom-validators/custom-validators')
           .then(m => m.CustomValidators)

@@ -20,6 +20,7 @@ export const SIDEBAR_DATA = [
       { label: 'Reactive Basic', route: '/forms/reactive-basic' },
       { label: 'Reactive Validation', route: '/forms/reactive-validation' },
       { label: 'Dynamic Forms', route: '/forms/dynamic-forms' },
+      { label: 'Order Dynamically', route: '/forms/order-dynamically' },
       { label: 'Custom Validators', route: '/forms/custom-validators' }
     ]
   },

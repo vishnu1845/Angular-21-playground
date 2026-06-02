@@ -1,101 +1,87 @@
-<div class="register-wrapper">
-  <div class="register-card">
+<div class="container mt-3">
+  <div class="row justify-content-center">
+    <div class="col-md-5">
 
-    <!-- Header -->
-    <div class="card-header-section">
-      <h2 class="form-title">Create Account</h2>
-      <p class="form-subtitle">Join us today — it's free</p>
-    </div>
+      <h4 class="mb-4 row justify-content-center" >Register Form</h4>
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-      <!-- ── Username ──────────────────────────────────── -->
-      <div class="mb-3">
-        <label class="form-label">Username</label>
-        <input
-          type="text"
-          class="form-control"
-          [class.is-invalid]="isInvalid(f['userName'])"
-          [class.is-valid]="f['userName'].valid && f['userName'].touched"
-          formControlName="userName"
-          placeholder="e.g. alex_dev"
-        />
-        @if (isInvalid(f['userName'])) {
-          <div class="invalid-feedback">
-            @if (f['userName'].errors?.['required']) { Username is required. }
-            @else if (f['userName'].errors?.['minlength']) { Min 3 characters. }
-          </div>
-        }
-      </div>
-
-      <!-- ── Email ─────────────────────────────────────── -->
-      <div class="mb-3">
-        <label class="form-label">Email</label>
-        <input
-          type="email"
-          class="form-control"
-          [class.is-invalid]="isInvalid(f['email'])"
-          [class.is-valid]="f['email'].valid && f['email'].touched"
-          formControlName="email"
-          placeholder="you@example.com"
-        />
-        @if (isInvalid(f['email'])) {
-          <div class="invalid-feedback">
-            @if (f['email'].errors?.['required']) { Email is required. }
-            @else if (f['email'].errors?.['email']) { Enter a valid email. }
-          </div>
-        }
-      </div>
-
-      <!-- ── Password ──────────────────────────────────── -->
-      <div class="mb-4">
-        <label class="form-label">Password</label>
-        <div class="input-group">
+        <div class="mb-3">
+          <label class="form-label">Username</label>
           <input
-            [type]="showPassword() ? 'text' : 'password'"
+            type="text"
             class="form-control"
-            [class.is-invalid]="isInvalid(f['password'])"
-            [class.is-valid]="f['password'].valid && f['password'].touched"
-            formControlName="password"
-            placeholder="Min 8 chars, 1 uppercase, 1 number"
+            [class.is-invalid]="isInvalid(f['userName'])"
+            [class.is-valid]="f['userName'].valid && f['userName'].touched"
+            formControlName="userName"
+            placeholder="e.g. alex_dev"
           />
-          <button
-            type="button"
-            class="btn btn-outline-secondary toggle-btn"
-            (click)="togglePassword()"
-          >
-            {{ showPassword() ? '🙈' : '👁️' }}
-          </button>
-          @if (isInvalid(f['password'])) {
+          @if (isInvalid(f['userName'])) {
             <div class="invalid-feedback">
-              @if (f['password'].errors?.['required']) { Password is required. }
-              @else if (f['password'].errors?.['minlength']) { Min 8 characters. }
-              @else if (f['password'].errors?.['pattern']) { Need 1 uppercase & 1 number. }
+              @if (f['userName'].errors?.['required'])  { Username is required. }
+              @else if (f['userName'].errors?.['minlength']) { Min 3 characters. }
             </div>
           }
         </div>
-      </div>
 
-      <!-- ── Submit Button ─────────────────────────────── -->
-      <button
-        type="submit"
-        class="btn btn-primary w-100 submit-btn"
-        [disabled]="isLoading()"
-      >
-        @if (isLoading()) {
-          <span class="spinner-border spinner-border-sm me-2"></span> Creating...
-        } @else {
-          Create Account
-        }
-      </button>
-
-        <!-- debug -->
-        <!-- @if (form.touched) {
-            <div class="debug-box mt-3">
-                <small>Form Valid: <strong>{{ form.valid }}</strong></small><br/>
-                <small>Value: <strong>{{ form.value | json }}</strong></small>
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            [class.is-invalid]="isInvalid(f['email'])"
+            [class.is-valid]="f['email'].valid && f['email'].touched"
+            formControlName="email"
+            placeholder="you@example.com"
+          />
+          @if (isInvalid(f['email'])) {
+            <div class="invalid-feedback">
+              @if (f['email'].errors?.['required']) { Email is required. }
+              @else if (f['email'].errors?.['email']) { Enter a valid email. }
             </div>
-        } -->
-    </form>
+          }
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label">Password</label>
+          <div class="input-group">
+            <input
+              [type]="showPassword() ? 'text' : 'password'"
+              class="form-control"
+              [class.is-invalid]="isInvalid(f['password'])"
+              [class.is-valid]="f['password'].valid && f['password'].touched"
+              formControlName="password"
+              placeholder="Min 8 chars, 1 uppercase, 1 number"
+            />
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              (click)="showPassword.update(v => !v)"
+            >
+              {{ showPassword() ? '🙈' : '👁️' }}
+            </button>
+            @if (isInvalid(f['password'])) {
+              <div class="invalid-feedback">
+                @if (f['password'].errors?.['required'])  { Password is required. }
+                @else if (f['password'].errors?.['minlength']) { Min 8 characters. }
+                @else if (f['password'].errors?.['pattern'])   { Need 1 uppercase & 1 number. }
+              </div>
+            }
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-primary w-100"
+          [disabled]="isLoading()"
+        >
+          @if (isLoading()) {
+            <span class="spinner-border spinner-border-sm me-2"></span> Creating...
+          } @else {
+            Create Account
+          }
+        </button>
+      </form>
+    </div>
   </div>
 </div>

@@ -1,0 +1,359 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+
+      <!-- ── Step indicator ──────────────────────────────── -->
+      <div class="d-flex align-items-center mb-4 gap-2">
+
+        @for (step of [1, 2, 3]; track step) {
+          <div
+            class="rounded-circle d-flex align-items-center justify-content-center fw-bold"
+            style="width:32px;height:32px;font-size:13px;"
+            [class.bg-primary]="currentStep() >= step"
+            [class.text-white]="currentStep() >= step"
+            [class.bg-light]="currentStep() < step"
+            [class.text-muted]="currentStep() < step"
+            [class.border]="currentStep() < step"
+          >{{ step }}</div>
+
+          @if (step < 3) {
+            <div
+              class="flex-grow-1"
+              style="height:2px;"
+              [class.bg-primary]="currentStep() > step"
+              [class.bg-light]="currentStep() <= step"
+            ></div>
+          }
+        }
+
+      </div>
+
+      <!-- ── Step titles ─────────────────────────────────── -->
+      @if (currentStep() === 1) { <h5 class="mb-4">Step 1 — Delivery Details</h5> }
+      @if (currentStep() === 2) { <h5 class="mb-4">Step 2 — Payment Method</h5>  }
+      @if (currentStep() === 3) { <h5 class="mb-4">Step 3 — Order Summary</h5>   }
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- STEP 1 — Delivery                               -->
+        <!-- ════════════════════════════════════════════════ -->
+        @if (currentStep() === 1) {
+
+          <!-- Delivery type -->
+          <div class="mb-3">
+            <label class="form-label">Delivery Type</label>
+            <select
+              class="form-select"
+              formControlName="deliveryType"
+              [class.is-invalid]="isInvalid(f['deliveryType'])"
+              [class.is-valid]="isValid(f['deliveryType'])"
+              (change)="onDeliveryChange(f['deliveryType'].value)"
+            >
+              <option value="">-- Select --</option>
+              @for (d of deliveryTypes; track d.value) {
+                <option [value]="d.value">{{ d.label }}</option>
+              }
+            </select>
+            @if (isInvalid(f['deliveryType'])) {
+              <div class="invalid-feedback">{{ getError(f['deliveryType']) }}</div>
+            }
+          </div>
+
+          <!-- Home delivery fields -->
+          @if (f['deliveryType'].value === 'home') {
+            <div class="mb-3">
+              <label class="form-label">Address</label>
+              <input type="text" class="form-control"
+                formControlName="address"
+                placeholder="Enter full address"
+                [class.is-invalid]="isInvalid(f['address'])"
+                [class.is-valid]="isValid(f['address'])"
+              />
+              @if (isInvalid(f['address'])) {
+                <div class="invalid-feedback">{{ getError(f['address']) }}</div>
+              }
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Pincode</label>
+              <input type="text" class="form-control"
+                formControlName="pincode"
+                placeholder="6 digit pincode"
+                maxlength="6"
+                [class.is-invalid]="isInvalid(f['pincode'])"
+                [class.is-valid]="isValid(f['pincode'])"
+              />
+              @if (isInvalid(f['pincode'])) {
+                <div class="invalid-feedback">{{ getError(f['pincode']) }}</div>
+              }
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Landmark <span class="text-muted">(optional)</span></label>
+              <input type="text" class="form-control"
+                formControlName="landmark"
+                placeholder="Near metro station, etc."
+              />
+            </div>
+          }
+
+          <!-- Takeaway fields -->
+          @if (f['deliveryType'].value === 'takeaway') {
+            <div class="mb-3">
+              <label class="form-label">Pickup Time</label>
+              <input type="time" class="form-control"
+                formControlName="pickupTime"
+                [class.is-invalid]="isInvalid(f['pickupTime'])"
+                [class.is-valid]="isValid(f['pickupTime'])"
+              />
+              @if (isInvalid(f['pickupTime'])) {
+                <div class="invalid-feedback">{{ getError(f['pickupTime']) }}</div>
+              }
+            </div>
+          }
+
+          <!-- Dine In fields -->
+          @if (f['deliveryType'].value === 'dinein') {
+            <div class="mb-3">
+              <label class="form-label">Date</label>
+              <input type="date" class="form-control"
+                formControlName="dineDate"
+                [class.is-invalid]="isInvalid(f['dineDate'])"
+                [class.is-valid]="isValid(f['dineDate'])"
+              />
+              @if (isInvalid(f['dineDate'])) {
+                <div class="invalid-feedback">{{ getError(f['dineDate']) }}</div>
+              }
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Time</label>
+              <input type="time" class="form-control"
+                formControlName="dineTime"
+                [class.is-invalid]="isInvalid(f['dineTime'])"
+                [class.is-valid]="isValid(f['dineTime'])"
+              />
+              @if (isInvalid(f['dineTime'])) {
+                <div class="invalid-feedback">{{ getError(f['dineTime']) }}</div>
+              }
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Number of Guests</label>
+              <input type="number" class="form-control"
+                formControlName="guests"
+                placeholder="e.g. 2"
+                min="1" max="20"
+                [class.is-invalid]="isInvalid(f['guests'])"
+                [class.is-valid]="isValid(f['guests'])"
+              />
+              @if (isInvalid(f['guests'])) {
+                <div class="invalid-feedback">{{ getError(f['guests']) }}</div>
+              }
+            </div>
+          }
+
+        }
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- STEP 2 — Payment                                -->
+        <!-- ════════════════════════════════════════════════ -->
+        @if (currentStep() === 2) {
+
+          <!-- Payment method -->
+          <div class="mb-3">
+            <label class="form-label">Payment Method</label>
+            <select
+              class="form-select"
+              formControlName="paymentMethod"
+              [class.is-invalid]="isInvalid(f['paymentMethod'])"
+              [class.is-valid]="isValid(f['paymentMethod'])"
+              (change)="onPaymentChange(f['paymentMethod'].value)"
+            >
+              <option value="">-- Select --</option>
+              @for (p of paymentMethods; track p.value) {
+                <option [value]="p.value">{{ p.label }}</option>
+              }
+            </select>
+            @if (isInvalid(f['paymentMethod'])) {
+              <div class="invalid-feedback">{{ getError(f['paymentMethod']) }}</div>
+            }
+          </div>
+
+          <!-- Card fields -->
+          @if (f['paymentMethod'].value === 'card') {
+            <div class="mb-3">
+              <label class="form-label">Card Number</label>
+              <input type="text" class="form-control"
+                formControlName="cardNumber"
+                placeholder="16 digit card number"
+                maxlength="16"
+                [class.is-invalid]="isInvalid(f['cardNumber'])"
+                [class.is-valid]="isValid(f['cardNumber'])"
+              />
+              @if (isInvalid(f['cardNumber'])) {
+                <div class="invalid-feedback">{{ getError(f['cardNumber']) }}</div>
+              }
+            </div>
+
+            <div class="row">
+              <div class="col-6 mb-3">
+                <label class="form-label">Expiry</label>
+                <input type="month" class="form-control"
+                  formControlName="cardExpiry"
+                  [class.is-invalid]="isInvalid(f['cardExpiry'])"
+                  [class.is-valid]="isValid(f['cardExpiry'])"
+                />
+                @if (isInvalid(f['cardExpiry'])) {
+                  <div class="invalid-feedback">{{ getError(f['cardExpiry']) }}</div>
+                }
+              </div>
+              <div class="col-6 mb-3">
+                <label class="form-label">CVV</label>
+                <input type="password" class="form-control"
+                  formControlName="cardCvv"
+                  placeholder="3 digits"
+                  maxlength="3"
+                  [class.is-invalid]="isInvalid(f['cardCvv'])"
+                  [class.is-valid]="isValid(f['cardCvv'])"
+                />
+                @if (isInvalid(f['cardCvv'])) {
+                  <div class="invalid-feedback">{{ getError(f['cardCvv']) }}</div>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- UPI fields -->
+          @if (f['paymentMethod'].value === 'upi') {
+            <div class="mb-3">
+              <label class="form-label">UPI ID</label>
+              <input type="text" class="form-control"
+                formControlName="upiId"
+                placeholder="yourname@upi"
+                [class.is-invalid]="isInvalid(f['upiId'])"
+                [class.is-valid]="isValid(f['upiId'])"
+              />
+              @if (isInvalid(f['upiId'])) {
+                <div class="invalid-feedback">{{ getError(f['upiId']) }}</div>
+              }
+            </div>
+          }
+
+          <!-- Net Banking fields -->
+          @if (f['paymentMethod'].value === 'nb') {
+            <div class="mb-3">
+              <label class="form-label">Bank Name</label>
+              <input type="text" class="form-control"
+                formControlName="bankName"
+                placeholder="e.g. SBI, HDFC"
+                [class.is-invalid]="isInvalid(f['bankName'])"
+                [class.is-valid]="isValid(f['bankName'])"
+              />
+              @if (isInvalid(f['bankName'])) {
+                <div class="invalid-feedback">{{ getError(f['bankName']) }}</div>
+              }
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Account Number</label>
+              <input type="text" class="form-control"
+                formControlName="accountNo"
+                placeholder="Enter account number"
+                [class.is-invalid]="isInvalid(f['accountNo'])"
+                [class.is-valid]="isValid(f['accountNo'])"
+              />
+              @if (isInvalid(f['accountNo'])) {
+                <div class="invalid-feedback">{{ getError(f['accountNo']) }}</div>
+              }
+            </div>
+          }
+
+          <!-- COD — no extra fields -->
+          @if (f['paymentMethod'].value === 'cod') {
+            <div class="alert alert-info py-2">
+              <small>💵 Pay with cash when your order arrives.</small>
+            </div>
+          }
+
+        }
+
+        <!-- ════════════════════════════════════════════════ -->
+        <!-- STEP 3 — Summary                                -->
+        <!-- ════════════════════════════════════════════════ -->
+        @if (currentStep() === 3) {
+
+          <div class="card mb-3">
+            <div class="card-body">
+
+              <h6 class="card-title mb-3">Delivery</h6>
+              <p class="mb-1"><small class="text-muted">Type:</small> <strong>{{ f['deliveryType'].value }}</strong></p>
+
+              @if (f['deliveryType'].value === 'home') {
+                <p class="mb-1"><small class="text-muted">Address:</small> <strong>{{ f['address'].value }}</strong></p>
+                <p class="mb-1"><small class="text-muted">Pincode:</small> <strong>{{ f['pincode'].value }}</strong></p>
+                @if (f['landmark'].value) {
+                  <p class="mb-1"><small class="text-muted">Landmark:</small> <strong>{{ f['landmark'].value }}</strong></p>
+                }
+              }
+
+              @if (f['deliveryType'].value === 'takeaway') {
+                <p class="mb-1"><small class="text-muted">Pickup Time:</small> <strong>{{ f['pickupTime'].value }}</strong></p>
+              }
+
+              @if (f['deliveryType'].value === 'dinein') {
+                <p class="mb-1"><small class="text-muted">Date:</small> <strong>{{ f['dineDate'].value }}</strong></p>
+                <p class="mb-1"><small class="text-muted">Time:</small> <strong>{{ f['dineTime'].value }}</strong></p>
+                <p class="mb-1"><small class="text-muted">Guests:</small> <strong>{{ f['guests'].value }}</strong></p>
+              }
+
+              <hr />
+
+              <h6 class="card-title mb-3">Payment</h6>
+              <p class="mb-1"><small class="text-muted">Method:</small> <strong>{{ f['paymentMethod'].value }}</strong></p>
+
+              @if (f['paymentMethod'].value === 'card') {
+                <p class="mb-1"><small class="text-muted">Card:</small> <strong>**** **** **** {{ f['cardNumber'].value?.slice(-4) }}</strong></p>
+              }
+
+              @if (f['paymentMethod'].value === 'upi') {
+                <p class="mb-1"><small class="text-muted">UPI ID:</small> <strong>{{ f['upiId'].value }}</strong></p>
+              }
+
+              @if (f['paymentMethod'].value === 'nb') {
+                <p class="mb-1"><small class="text-muted">Bank:</small> <strong>{{ f['bankName'].value }}</strong></p>
+              }
+
+            </div>
+          </div>
+
+        }
+
+        <!-- ── Navigation buttons ─────────────────────────── -->
+        <div class="d-flex gap-2 mt-4">
+
+          @if (currentStep() > 1) {
+            <button type="button" class="btn btn-outline-secondary w-100" (click)="prevStep()">
+              ← Back
+            </button>
+          }
+
+          @if (currentStep() < totalSteps) {
+            <button type="button" class="btn btn-primary w-100" (click)="nextStep()">
+              Next →
+            </button>
+          }
+
+          @if (currentStep() === totalSteps) {
+            <button type="submit" class="btn btn-success w-100">
+              ✅ Place Order
+            </button>
+          }
+
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
