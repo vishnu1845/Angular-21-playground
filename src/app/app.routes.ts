@@ -66,6 +66,16 @@ export const routes: Routes = [
         loadComponent: () => import('./features/forms/custom-validators/custom-validators')
           .then(m => m.CustomValidators)
       },
+      {
+        path: 'forms/signal-forms',
+        loadComponent: () => import('./features/forms/signal-forms/signal-forms')
+          .then(m => m.SignalForms)
+      },
+      {
+        path: 'forms/signal-form-validation',
+        loadComponent: () => import('./features/forms/signal-form-validation/signal-form-validation')
+          .then(m => m.SignalFormValidation)
+      },
 
       // ==================== SERVICES ====================
       {

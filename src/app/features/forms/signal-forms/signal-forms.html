@@ -1,0 +1,81 @@
+<div class="container mt-3">
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+
+      <h4 class="mb-4 row justify-content-center" >Create Account</h4>
+
+        <form (submit)="onSubmit($event)">
+
+          <div class="mb-3">
+            <label class="form-label fw-medium">Username</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter your username"
+              [formField]="registerForm.userName"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-medium">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              placeholder="Enter your email"
+              [formField]="registerForm.email"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-medium">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              placeholder="Enter your password"
+              [formField]="registerForm.password"
+            />
+          </div>
+
+          <div class="mb-4 form-check">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="rememberMe"
+              [formField]="registerForm.rememberMe"
+            />
+            <label class="form-check-label" for="rememberMe">Remember me</label>
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-lg rounded-3">
+              Submit
+            </button>
+          </div>
+
+        </form> 
+
+
+        <!-- <form (submit)="onSubmit($event)">
+            <div class="mb-3">
+                <label for="userName" class="form-label">userName</label>
+                <input type="text" class="form-control" [formField]="registerForm.userName" placeholder="e.g. alex">
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" [formField]="registerForm.email" placeholder="you@gmail.com">
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" [formField]="registerForm.password" placeholder="password">
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary btn-lg rounded-3">Submit </button>
+            </div>
+        </form> -->
+      </div>
+
+    </div>
+</div>

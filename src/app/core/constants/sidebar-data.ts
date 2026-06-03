@@ -21,7 +21,9 @@ export const SIDEBAR_DATA = [
       { label: 'Reactive Validation', route: '/forms/reactive-validation' },
       { label: 'Dynamic Forms', route: '/forms/dynamic-forms' },
       { label: 'Order Dynamically', route: '/forms/order-dynamically' },
-      { label: 'Custom Validators', route: '/forms/custom-validators' }
+      { label: 'Custom Validators', route: '/forms/custom-validators' },
+      { label: 'Signal Form', route: '/forms/signal-forms' },
+      { label: 'Signal Form Validation', route: '/forms/signal-form-validation' },
     ]
   },
 
