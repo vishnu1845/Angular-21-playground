@@ -152,8 +152,19 @@
     <br />
 
     <!-- ── NEW WAY ─────────────────────────────────────────── -->
+
+    
     <h5>🟢 New Way — model() Signal (Angular 17+, preferred in Angular 21)</h5>
 
+    <input
+      [value]="userName()"
+      (input)="userName.set($any($event.target).value)"
+      placeholder="Enter username"
+    />
+
+    <p>{{ userName() }}</p><br>
+
+    
     <!-- model() counter -->
     <p>model() Counter:</p>
     <button (click)="updateCount(-1)">−</button>

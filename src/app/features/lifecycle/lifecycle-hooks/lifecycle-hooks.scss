@@ -1,0 +1,302 @@
+// ── Phase color tokens ───────────────────────────────────────────────────
+:host {
+  --creation:    #22c55e;   // green
+  --cd:          #3b82f6;   // blue
+  --render:      #a78bfa;   // purple
+  --destroy:     #ef4444;   // red
+
+  --bg:          #0d1117;
+  --surface:     #161b22;
+  --surface2:    #1c2333;
+  --border:      rgba(255,255,255,0.08);
+  --text:        #e6edf3;
+  --muted:       #6e7681;
+  --font-mono:   'Courier New', 'Consolas', monospace;
+}
+
+// ── Page shell ────────────────────────────────────────────────────────────
+.lc-page {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  padding: 28px 32px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+// ── Header ────────────────────────────────────────────────────────────────
+.lc-header {
+  margin-bottom: 20px;
+
+  .lc-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 4px;
+  }
+
+  .lc-subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0;
+    font-family: var(--font-mono);
+  }
+}
+
+// ── Phase legend ──────────────────────────────────────────────────────────
+.phase-legend {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+
+  .legend-item {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-family: var(--font-mono);
+  }
+}
+
+// ── Two-column layout ─────────────────────────────────────────────────────
+.lc-layout {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.lc-left {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+// ── Panel shared style ────────────────────────────────────────────────────
+.panel-title {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 14px;
+  font-family: var(--font-mono);
+}
+
+// ── Control panel ─────────────────────────────────────────────────────────
+.control-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+
+  .current-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+
+    .input-label {
+      font-size: 12px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .input-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: #3b82f6;
+      font-family: var(--font-mono);
+    }
+  }
+
+  .btn-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+// ── Buttons ───────────────────────────────────────────────────────────────
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: 'Segoe UI', sans-serif;
+
+  .btn-hint {
+    font-size: 10px;
+    font-weight: 400;
+    font-family: var(--font-mono);
+    opacity: 0.7;
+  }
+
+  &.btn-update {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.4);
+    color: #60a5fa;
+
+    &:hover { background: rgba(59, 130, 246, 0.25); }
+  }
+
+  &.btn-destroy {
+    background: rgba(239, 68, 68, 0.12);
+    border-color: rgba(239, 68, 68, 0.35);
+    color: #f87171;
+
+    &:hover { background: rgba(239, 68, 68, 0.22); }
+  }
+
+  &.btn-show {
+    background: rgba(34, 197, 94, 0.12);
+    border-color: rgba(34, 197, 94, 0.35);
+    color: #4ade80;
+
+    &:hover { background: rgba(34, 197, 94, 0.22); }
+  }
+
+  &.btn-clear {
+    background: rgba(255,255,255,0.04);
+    border-color: var(--border);
+    color: var(--muted);
+
+    &:hover { background: rgba(255,255,255,0.08); color: var(--text); }
+  }
+}
+
+// ── Child area ────────────────────────────────────────────────────────────
+.child-area {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+
+  .child-destroyed {
+    padding: 20px;
+    text-align: center;
+    color: #f87171;
+    font-size: 13px;
+    font-family: var(--font-mono);
+    background: rgba(239, 68, 68, 0.06);
+    border: 1px dashed rgba(239, 68, 68, 0.25);
+    border-radius: 8px;
+  }
+
+  .projected-slot {
+    font-size: 12px;
+    color: #a78bfa;
+    font-family: var(--font-mono);
+  }
+}
+
+// ── Log panel ─────────────────────────────────────────────────────────────
+.lc-right {
+  position: sticky;
+  top: 20px;
+}
+
+.log-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+
+  .log-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+
+    .log-count {
+      font-size: 11px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+  }
+
+  .log-hint {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .log-empty {
+    color: var(--muted);
+    font-size: 13px;
+    font-family: var(--font-mono);
+    text-align: center;
+    padding: 40px 0;
+  }
+
+  .log-entries {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+
+    &::-webkit-scrollbar { width: 4px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+  }
+}
+
+// ── Log entry ─────────────────────────────────────────────────────────────
+.log-entry {
+  display: grid;
+  grid-template-columns: 90px 140px 180px 1fr;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  border-left: 3px solid transparent;
+  background: rgba(255,255,255,0.02);
+
+  .log-time   { color: var(--muted); }
+  .log-phase  { font-weight: 600; }
+  .log-hook   { font-weight: 600; }
+  .log-detail { color: #8b9cb5; font-size: 10.5px; }
+}
+
+// ── Phase color classes (applied to .log-entry and .legend-item) ──────────
+.phase-creation {
+  border-left-color: var(--creation);
+  .log-phase, .log-hook { color: var(--creation); }
+  &.legend-item { background: rgba(34,197,94,0.12); color: var(--creation); border: 1px solid rgba(34,197,94,0.3); }
+}
+
+.phase-cd {
+  border-left-color: var(--cd);
+  .log-phase, .log-hook { color: var(--cd); }
+  &.legend-item { background: rgba(59,130,246,0.12); color: var(--cd); border: 1px solid rgba(59,130,246,0.3); }
+}
+
+.phase-render {
+  border-left-color: var(--render);
+  .log-phase, .log-hook { color: var(--render); }
+  &.legend-item { background: rgba(167,139,250,0.12); color: var(--render); border: 1px solid rgba(167,139,250,0.3); }
+}
+
+.phase-destroy {
+  border-left-color: var(--destroy);
+  .log-phase, .log-hook { color: var(--destroy); }
+  &.legend-item { background: rgba(239,68,68,0.12); color: var(--destroy); border: 1px solid rgba(239,68,68,0.3); }
+}

@@ -1,0 +1,24 @@
+<div class="child-wrapper">
+  <div class="child-header">
+    <span class="child-badge">CHILD</span>
+    <span class="child-label">LifecycleChild Component</span>
+    <span class="child-name">{{ userName || '—' }}</span>
+  </div>
+
+  <div class="child-stats">
+    <div class="stat">
+      <span class="stat-label">ngDoCheck fired</span>
+      <span class="stat-value warn">{{ doCheckCount() }}×</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">afterEveryRender fired</span>
+      <span class="stat-value render">{{ renderCount() }}×</span>
+    </div>
+  </div>
+
+  <!-- ng-content slot — triggers ngAfterContentInit / ngAfterContentChecked -->
+  <div class="projected-content">
+    <span class="projected-label">Projected content (ng-content):</span>
+    <ng-content />
+  </div>
+</div>

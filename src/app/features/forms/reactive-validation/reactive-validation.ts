@@ -10,7 +10,10 @@ import { CommonModule, JsonPipe } from '@angular/common';
 })
 export class ReactiveValidation {
 
-  private fb = inject(FormBuilder);
+  private fb = inject(FormBuilder);  //new version
+
+  // constructor(private fb: FormBuilder){}
+
 
   isLoading    = signal(false);
   showPassword = signal(false);
@@ -36,7 +39,6 @@ export class ReactiveValidation {
   onSubmit(): void {
     this.form.markAllAsTouched();         
     if (this.form.invalid) return;
-
     this.isLoading.set(true);
     setTimeout(() => {
       console.log('Form Value:', this.form.value);

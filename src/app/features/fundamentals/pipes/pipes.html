@@ -1,1 +1,172 @@
-<p>pipes works!</p>
+<div class="container d-flex flex-column gap-4">
+
+  <h4>Angular Pipes </h4><hr>
+
+  <!-- ── 1. TEXT PIPES ─────────────────────────────────────────────── -->
+  <div>
+    <h6>1. Text Pipes</h6>
+
+    <p>uppercase  : {{ name | uppercase }}</p>
+    <p>lowercase  : {{ name | lowercase }}</p>
+    <p>titlecase  : {{ name | titlecase }}</p>
+  </div>
+
+  <!-- ── 2. DATE PIPE ──────────────────────────────────────────────── -->
+  <div>
+    <h6>2. Date Pipe</h6>
+
+    <!-- predefined shorthand formats -->
+    <p>short      : {{ today | date : 'short' }}</p>
+    <p>medium     : {{ today | date : 'medium' }}</p>
+    <p>long       : {{ today | date : 'long' }}</p>
+    <p>full       : {{ today | date : 'full' }}</p>
+
+    <!-- predefined date-only formats -->
+    <p>shortDate  : {{ today | date : 'shortDate' }}</p>
+    <p>mediumDate : {{ today | date : 'mediumDate' }}</p>
+    <p>longDate   : {{ today | date : 'longDate' }}</p>
+    <p>fullDate   : {{ today | date : 'fullDate' }}</p>
+
+    <!-- predefined time-only formats -->
+    <p>shortTime  : {{ today | date : 'shortTime' }}</p>
+    <p>mediumTime : {{ today | date : 'mediumTime' }}</p>
+    <p>longTime   : {{ today | date : 'longTime' }}</p>
+    <p>fullTime   : {{ today | date : 'fullTime' }}</p>
+
+    <!-- custom formats -->
+    <p>dd/MM/yyyy             : {{ today | date : 'dd/MM/yyyy' }}</p>
+    <p>MM/dd/yyyy             : {{ today | date : 'MM/dd/yyyy' }}</p>
+    <p>yyyy-MM-dd             : {{ today | date : 'yyyy-MM-dd' }}</p>
+    <p>dd-MMM-yyyy            : {{ today | date : 'dd-MMM-yyyy' }}</p>
+    <p>EEEE, MMMM d, y        : {{ today | date : 'EEEE, MMMM d, y' }}</p>
+    <p>hh:mm a                : {{ today | date : 'hh:mm a' }}</p>
+    <p>HH:mm:ss               : {{ today | date : 'HH:mm:ss' }}</p>
+    <p>dd/MM/yyyy HH:mm:ss    : {{ today | date : 'dd/MM/yyyy HH:mm:ss' }}</p>
+
+    <!-- with timezone param -->
+    <p>UTC timezone           : {{ today | date : 'hh:mm' : 'UTC' }}</p>
+    <p>IST timezone           : {{ today | date : 'hh:mm' : '+0530' }}</p>
+  </div>
+
+  <!-- ── 3. CURRENCY PIPE ───────────────────────────────────────────── -->
+  <div>
+    <h6>3. Currency Pipe</h6>
+
+    <!-- syntax: value | currency : code : display : digitsInfo -->
+
+    <!-- default — USD with $ symbol -->
+    <p>default USD            : {{ price | currency }}</p>
+
+    <!-- INR — Indian Rupee -->
+    <p>INR symbol             : {{ price | currency : 'INR' : 'symbol' }}</p>
+    <p>INR code               : {{ price | currency : 'INR' : 'code' }}</p>
+    <p>INR narrow             : {{ price | currency : 'INR' : 'narrow' }}</p>
+
+    <!-- EUR — Euro -->
+    <p>EUR symbol             : {{ price | currency : 'EUR' : 'symbol' }}</p>
+
+    <!-- GBP — British Pound -->
+    <p>GBP symbol             : {{ price | currency : 'GBP' : 'symbol' }}</p>
+
+    <!-- JPY — Japanese Yen (no decimals) -->
+    <p>JPY no decimals        : {{ price | currency : 'JPY' : 'symbol' : '1.0-0' }}</p>
+
+    <!-- digitsInfo: minIntegerDigits.minFractionDigits-maxFractionDigits -->
+    <p>INR 2 decimal places   : {{ price | currency : 'INR' : 'symbol' : '1.2-2' }}</p>
+    <p>INR 0 decimal places   : {{ price | currency : 'INR' : 'symbol' : '1.0-0' }}</p>
+  </div>
+
+  <!-- ── 4. DECIMAL PIPE ────────────────────────────────────────────── -->
+  <div>
+    <h6>4. Decimal Pipe</h6>
+
+    <!-- syntax: value | number : 'minInt.minFrac-maxFrac' -->
+    <p>default                : {{ pi | number }}</p>
+    <p>2 decimal places       : {{ pi | number : '1.2-2' }}</p>
+    <p>4 decimal places       : {{ pi | number : '1.4-4' }}</p>
+  </div>
+
+  <!-- ── 5. PERCENT PIPE ────────────────────────────────────────────── -->
+  <div>
+    <h6>5. Percent Pipe</h6>
+
+    <p>default                : {{ discount | percent }}</p>
+    <p>2 decimal places       : {{ discount | percent : '1.2-2' }}</p>
+  </div>
+
+  <!-- ── 6. SLICE PIPE ──────────────────────────────────────────────── -->
+  <div>
+    <h6>6. Slice Pipe</h6>
+
+    <!-- array slice -->
+    <p>fruits 1 to 3          : {{ fruits | slice : 1 : 4 }}</p>
+    <p>fruits first 2         : {{ fruits | slice : 0 : 2 }}</p>
+    <p>fruits last 2          : {{ fruits | slice : -2 }}</p>
+
+    <!-- string slice -->
+    <p>title first 5 chars    : {{ title | slice : 0 : 5 }}</p>
+  </div>
+
+  <!-- ── 7. JSON PIPE ───────────────────────────────────────────────── -->
+  <div>
+    <h6>7. Json Pipe — for debugging</h6>
+    <pre>{{ user | json }}</pre>
+  </div>
+
+  <!-- ── 8. KEYVALUE PIPE ───────────────────────────────────────────── -->
+    <!-- ❌ this will NOT work — person is an object, not an array -->
+    <!-- @for (item of person; track item) { } -->
+
+    <!--  keyvalue pipe CONVERTS object → array of {key, value} pairs -->
+      
+  <div>
+    <h6>8. KeyValue Pipe — iterate object</h6>
+    @for (item of person | keyvalue; track item.key) {
+      <p>{{ item.key }} : {{ item.value }}</p>
+    }
+  </div>
+
+  <!-- ── 9. CHAINING PIPES ──────────────────────────────────────────── -->
+  <div>
+    <h6>9. Chaining Pipes — runs left to right</h6>
+    <p>{{ name | titlecase | uppercase }}</p>
+    <p>{{ today | date : 'fullDate' | uppercase }}</p>
+  </div>
+
+  <!-- ── 10. PIPE PRECEDENCE ────────────────────────────────────────── -->
+  <div>
+    <h6>10. Pipe with Ternary — always use ( )</h6>
+    <p>{{ (true ? 'access granted' : 'access denied') | uppercase }}</p>
+  </div>
+
+
+  <div class="container mt-4">
+
+  <h4 class="mb-3">Custom Pipe — Prefix Example</h4>
+
+  <table class="table table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>Age</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (person of people; track person.name; let i = $index) {
+        <tr>
+          <td>{{ i + 1 }}</td>
+
+          <!-- passing gender as a param to prefix pipe -->
+          <td>{{ person.name | prefix : person.gender }}</td>
+
+          <td>{{ person.gender }}</td>
+          <td>{{ person.age }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+</div>
+</div>

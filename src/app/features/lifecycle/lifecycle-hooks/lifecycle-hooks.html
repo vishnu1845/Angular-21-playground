@@ -1,1 +1,104 @@
-<p>lifecycle-hooks works!</p>
+<div class="lc-page">
+
+  <!-- ── Header ─────────────────────────────────────────────────── -->
+  <div class="lc-header">
+    <h1 class="lc-title">Angular 21 — Component Lifecycle</h1>
+    <p class="lc-subtitle">Real-time hook execution visualizer</p>
+  </div>
+
+  <!-- ── Phase Legend ───────────────────────────────────────────── -->
+  <div class="phase-legend">
+    <span class="legend-item phase-creation">Creation</span>
+    <span class="legend-item phase-cd">ChangeDetection</span>
+    <span class="legend-item phase-render">Rendering</span>
+    <span class="legend-item phase-destroy">Destruction</span>
+  </div>
+
+  <!-- ── Main layout ────────────────────────────────────────────── -->
+  <div class="lc-layout">
+
+    <!-- Left: Controls + Child component -->
+    <div class="lc-left">
+
+      <!-- Control panel -->
+      <div class="control-panel">
+        <h2 class="panel-title">Parent Controls</h2>
+
+        <div class="current-input">
+          <span class="input-label">Current userName input:</span>
+          <span class="input-value">{{ userName() }}</span>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-update" (click)="updateName()">
+            Update Name
+            <span class="btn-hint">triggers ngOnChanges</span>
+          </button>
+
+          <button
+            class="btn"
+            [class.btn-show]="!showChild()"
+            [class.btn-destroy]="showChild()"
+            (click)="toggleChild()"
+          >
+            {{ showChild() ? 'Destroy Child' : 'Recreate Child' }}
+            <span class="btn-hint">{{ showChild() ? 'triggers ngOnDestroy' : 'triggers full init chain' }}</span>
+          </button>
+
+          <button class="btn btn-clear" (click)="clearLogs()">
+            Clear Logs
+          </button>
+        </div>
+      </div>
+
+      <!-- Child component — @if controls destroy/recreate -->
+      <div class="child-area">
+        <h2 class="panel-title">Child Component</h2>
+
+        @if (showChild()) {
+          <app-lifecycle-child
+            [userName]="userName()"
+            (logEvent)="onLogEvent($event)"
+          >
+            <!-- projected content — triggers ngAfterContentInit -->
+            <span class="projected-slot">🔷 ng-content from parent</span>
+          </app-lifecycle-child>
+        } @else {
+          <div class="child-destroyed">
+            <span>⚠️ Child destroyed — click "Recreate Child" to reinitialize</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Right: Log panel -->
+    <div class="lc-right">
+      <div class="log-panel">
+        <div class="log-header">
+          <h2 class="panel-title">Hook Execution Log</h2>
+          <span class="log-count">{{ logs().length }} entries</span>
+        </div>
+
+        <div class="log-hint">
+          <span>Newest on top — scroll down for older entries</span>
+        </div>
+
+        @if (logs().length === 0) {
+          <div class="log-empty">No hooks fired yet. Logs appear here in real time.</div>
+        }
+
+        <div class="log-entries">
+          @for (entry of logs(); track $index) {
+            <div class="log-entry" [class]="phaseClass(entry.phase)">
+              <span class="log-time">{{ entry.timestamp }}</span>
+              <span class="log-phase">[{{ entry.phase }}]</span>
+              <span class="log-hook">{{ entry.hook }}</span>
+              <span class="log-detail">{{ entry.detail }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

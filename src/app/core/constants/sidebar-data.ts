@@ -28,6 +28,16 @@ export const SIDEBAR_DATA = [
   },
 
   {
+    title: 'Lifecycle',
+    icon: 'bi bi-clock-history',
+    isOpen: false,
+    children: [
+      { label: 'Lifecycle Hooks', route: '/lifecycle/lifecycle-hooks' },
+      { label: 'Component Lifecycle Demo', route: '/lifecycle/component-lifecycle-demo' }
+    ]
+  },
+  
+  {
     title: 'Services',
     icon: 'bi bi-gear',
     isOpen: false,
@@ -82,16 +92,6 @@ export const SIDEBAR_DATA = [
       { label: 'Signals Store', route: '/state/signals-store' },
       { label: 'Signal Inputs', route: '/state/signal-inputs' },
       { label: 'NgRx Basics', route: '/state/ngrx-basics' }
-    ]
-  },
-
-  {
-    title: 'Lifecycle',
-    icon: 'bi bi-clock-history',
-    isOpen: false,
-    children: [
-      { label: 'Lifecycle Hooks', route: '/lifecycle/lifecycle-hooks' },
-      { label: 'Component Lifecycle Demo', route: '/lifecycle/component-lifecycle-demo' }
     ]
   },
 
