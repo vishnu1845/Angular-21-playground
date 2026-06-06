@@ -18,6 +18,7 @@ import {
   afterNextRender,
   afterEveryRender,
   NgZone,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LogEntry } from '../lifecycle-hooks';
@@ -28,6 +29,7 @@ import { LogEntry } from '../lifecycle-hooks';
   imports: [CommonModule],
   templateUrl: './lifecycle-child.html',
   styleUrl: './lifecycle-child.scss',
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LifecycleChild
   implements
@@ -57,7 +59,6 @@ export class LifecycleChild
   // So we increment plain numbers during the hook, then sync to signals on flush
   private _doCheckCount = 0;
   private _renderCount  = 0;
-
   private readonly zone       = inject(NgZone);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -76,7 +77,7 @@ export class LifecycleChild
       this.buffer('Rendering', 'afterNextRender', 'DOM fully rendered — fires once only');
       // must flush outside Angular — calling zone.run() here would mark views dirty
       this.zone.runOutsideAngular(() =>
-        setTimeout(() => this.zone.run(() => this.flushNow()), 15000)
+        setTimeout(() => this.zone.run(() => this.flushNow()), 10000)
       );
     });
 
@@ -90,7 +91,7 @@ export class LifecycleChild
         setTimeout(() => this.zone.run(() => {
           this.renderCount.set(count); // safe: we're outside the render hook now
           this.flushNow();
-        }), 15000)
+        }), 10000)
       );
     });
 
@@ -178,7 +179,7 @@ export class LifecycleChild
     if (this.flushScheduled) return;
     this.flushScheduled = true;
     this.zone.runOutsideAngular(() => {
-      setTimeout(() => this.zone.run(() => this.flushNow()), 15000);
+      setTimeout(() => this.zone.run(() => this.flushNow()), 10000);
     });
   }
 

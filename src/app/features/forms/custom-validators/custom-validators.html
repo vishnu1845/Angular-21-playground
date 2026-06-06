@@ -1,27 +1,67 @@
 <div class="container mt-3">
   <div class="row justify-content-center">
     <div class="col-md-5">
+      <h4 class="text-center mb-3">Register Form</h4>
 
-      <h4 class="mb-4 row justify-content-center" >Register Form</h4>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-                <label for="userName" class="form-label">Username</label>
-                <input type="text" class="form-control" formControlName="userName" placeholder="userName">
+        <!-- Username -->
+        <div class="form-group mb-2">
+          <label for="userName">Username</label>
+          <input type="text" class="form-control" formControlName="userName" placeholder="Username"
+            [class.is-invalid]="f.userName.invalid && f.userName.touched"
+            [class.is-valid]="f.userName.valid">
+          @if (f.userName.invalid && f.userName.touched) {
+            <div class="invalid-feedback"><i>Username is required</i></div>
+          }
+        </div>
+
+        <!-- Email -->
+        <div class="form-group mb-2">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" formControlName="email" placeholder="Email"
+            [class.is-invalid]="f.email.invalid && f.email.touched"
+            [class.is-valid]="f.email.valid">
+          @if (f.email.invalid && f.email.touched) {
+            <div class="invalid-feedback">
+              @if (f.email.errors?.['required']) { <i>Email is required</i> }
+              @else if (f.email.errors?.['email']) { <i>Please enter a valid email</i> }
             </div>
+          }
+        </div>
 
-            <div class="form-group">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" formControlName="email" placeholder="email">
+        <!-- Password -->
+        <div class="form-group mb-2">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" formControlName="password" placeholder="Password"
+            [class.is-invalid]="f.password.invalid && f.password.touched"
+            [class.is-valid]="f.password.valid">
+          @if (f.password.invalid && f.password.touched) {
+            <div class="invalid-feedback">
+              @if (f.password.errors?.['required']) { <i>Password is required</i> }
+              @else if (f.password.errors?.['pattern']) { <i>Password must contain at least one uppercase letter and one number</i> }
             </div>
+          }
+        </div>
 
-            <div class="form-group">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" formControlName="password" placeholder="password">
-            </div>
+        <!-- Checkbox -->
+        <div class="form-group mb-3">
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="reminder" formControlName="reminder"
+              [class.is-invalid]="f.reminder.invalid && f.reminder.touched">
+            <label class="form-check-label" for="reminder">I agree to the terms and conditions</label>
+          </div>
+          @if (f.reminder.invalid && f.reminder.touched) {
+            <div class="text-danger small"><i>You must accept the terms and conditions</i></div>
+          }
+        </div>
 
-            <button type="submit" class="mt-4 btn btn-primary w-100">Submit</button>
-        </form>
+        <!-- Submit -->
+        <div class="form-group">
+          <button class="btn btn-primary w-100">Submit</button>
+        </div>
+
+      </form>
     </div>
- </div>
+  </div>
 </div>
