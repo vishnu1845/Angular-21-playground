@@ -55,5 +55,4 @@ export class Pipes {
     { name: 'John',  gender: 'male',   age: 22 },
   ];
 
-  // str:string = 'hey alex'
 }

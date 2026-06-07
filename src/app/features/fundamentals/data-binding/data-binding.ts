@@ -64,7 +64,7 @@ export class DataBinding {
 
   onInputChange(event: Event): void {
     console.log(event);
-    const value = (event.target as HTMLInputElement).value;
+    const value = (event.target as HTMLInputElement).value;  // type assertion  , forcefully anocote -type assertion doesn't convert the value, it just tells TypeScript what type to treat it as at compile time. Runtime doesn't care.
     // const value = ( document.getElementById('userName') as HTMLInputElement).value
     this.userName1.set(value);
   }
@@ -128,7 +128,7 @@ export class DataBinding {
   }
 
   updateModelName(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
+    const value = (event.target as HTMLInputElement).value; 
     this.modelName.set(value);
   }
 

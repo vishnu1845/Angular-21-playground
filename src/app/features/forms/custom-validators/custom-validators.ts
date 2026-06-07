@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@
 
 function mustBeTrue(control: AbstractControl) {
   return control.value === true ? null : { mustBeTrue: true };
-}
+}// "Is the checkbox checked? If yes return null (valid). If no, return an error object (invalid)."
 
 @Component({
   selector: 'app-custom-validators',
