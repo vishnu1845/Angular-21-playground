@@ -7,7 +7,6 @@ export class Search {
   searchTerm = signal('');
 
   setSearchTerm(value: string) {
-
     this.searchTerm.set(value);
   }
 }

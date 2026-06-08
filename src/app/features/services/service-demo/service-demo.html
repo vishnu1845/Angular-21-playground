@@ -1,1 +1,52 @@
-<p>service-demo works!</p>
+<div class="container mt-4">
+
+  <h4 class="mb-3">📚 Books</h4>
+  <table class="table table-bordered table-hover table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Year</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (book of books; track book.id) {
+        <tr>
+          <td>{{ book.id }}</td>
+          <td>{{ book.title }}</td>
+          <td>{{ book.author }}</td>
+          <td>{{ book.year }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <h4 class="mt-5 mb-3">🗂️ Posts <span class="badge bg-secondary">JSONPlaceholder</span></h4>
+
+  @if (posts().length === 0) {
+    <p class="text-muted">Loading posts...</p>
+  } @else {
+    <table class="table table-bordered table-hover table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>#</th>
+          <th>User ID</th>
+          <th>Title</th>
+          <th>Body</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (post of posts(); track post.id) {
+          <tr>
+            <td>{{ post.id }}</td>
+            <td>{{ post.userId }}</td>
+            <td>{{ post.title }}</td>
+            <td class="text-muted small">{{ post.body | slice:0:120 }}...</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+</div>
