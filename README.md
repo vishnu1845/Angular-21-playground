@@ -1,11 +1,26 @@
-# Angular 21 Playground ⚡
+<div align="center">
 
-> not ur average tutorial project. this is a **full Angular 21 curriculum app** — built from scratch, covers everything, runs live.
+```
+ █████╗ ███╗   ██╗ ██████╗ ██╗   ██╗██╗      █████╗ ██████╗     ██████╗  ██╗
+██╔══██╗████╗  ██║██╔════╝ ██║   ██║██║     ██╔══██╗██╔══██╗   ╚════██╗ ███║
+███████║██╔██╗ ██║██║  ███╗██║   ██║██║     ███████║██████╔╝    █████╔╝  ╚██║
+██╔══██║██║╚██╗██║██║   ██║██║   ██║██║     ██╔══██║██╔══██╗   ██╔═══╝    ██║
+██║  ██║██║ ╚████║╚██████╔╝╚██████╔╝███████╗██║  ██║██║  ██║   ███████╗   ██║
+╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝  ╚═════╝ ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚══════╝   ╚═╝
+                          P L A Y G R O U N D  ⚡
+```
 
-![Angular](https://img.shields.io/badge/Angular-21-red?style=for-the-badge&logo=angular)
-![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue?style=for-the-badge&logo=typescript)
-![Signals](https://img.shields.io/badge/Signals-Zoneless-purple?style=for-the-badge)
-![Bootstrap](https://img.shields.io/badge/Bootstrap-5-blueviolet?style=for-the-badge&logo=bootstrap)
+**not ur average tutorial project.**
+this is a full Angular 21 curriculum app — built from scratch, covers everything, runs live.
+
+[![Angular](https://img.shields.io/badge/Angular-21-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Signals](https://img.shields.io/badge/Signals-Zoneless-8B5CF6?style=for-the-badge&logoColor=white)](https://angular.dev/guide/signals)
+[![Bootstrap](https://img.shields.io/badge/Bootstrap-5-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com)
+
+*built it. broke it. fixed it. understood it. now it's here.*
+
+</div>
 
 ---
 
@@ -14,19 +29,19 @@
 a hands-on **Angular 21 workspace** built to deeply understand (and teach) modern Angular.
 **13 topics. 40+ concepts. real API calls. live visualizers.** all in one app with a sidebar nav.
 
-> built it. broke it. fixed it. understood it. now it's here.
-
 ---
 
 ## screenshots 📸
 
+> 💡 push the images first, then they'll render here automatically.
+
 <p align="center">
-  <img src="public/images/dynamicForm.png" alt="Dynamic Form" width="45%" />
+  <img src="https://raw.githubusercontent.com/vishnu1845/Angular-21-playground/main/public/images/dynamicForm.png" alt="Dynamic Form" width="45%" />
   &nbsp;&nbsp;
-  <img src="public/images/lifecycleHooks1.png" alt="Lifecycle Hooks Visualizer" width="45%" />
+  <img src="https://raw.githubusercontent.com/vishnu1845/Angular-21-playground/main/public/images/lifecycleHooks1.png" alt="Lifecycle Hooks Visualizer" width="45%" />
 </p>
 <p align="center">
-  <img src="public/images/lifecycleHooks2.png" alt="Lifecycle Hook Execution Log" width="45%" />
+  <img src="https://raw.githubusercontent.com/vishnu1845/Angular-21-playground/main/public/images/lifecycleHooks2.png" alt="Lifecycle Hook Execution Log" width="60%" />
 </p>
 
 ---
@@ -101,9 +116,13 @@ src/app/
 
 ## connect 🔗
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Vishnu_Bandgar-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/vishnu-bandgar/)
-[![GitHub](https://img.shields.io/badge/GitHub-vishnu1845-black?style=flat&logo=github)](https://github.com/vishnu1845)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Vishnu_Bandgar-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/vishnu-bandgar/)
+[![GitHub](https://img.shields.io/badge/GitHub-vishnu1845-181717?style=flat&logo=github&logoColor=white)](https://github.com/vishnu1845)
 
 ---
 
-<p align="center">built with curiosity. breaks occasionally. learning always. 🔥</p>
+<div align="center">
+
+*built with curiosity. breaks occasionally. learning always. 🔥*
+
+</div>
