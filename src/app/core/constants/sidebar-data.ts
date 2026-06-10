@@ -43,7 +43,7 @@ export const SIDEBAR_DATA = [
     isOpen: false,
     children: [
       { label: 'Service Demo', route: '/services/service-demo' },
-      { label: 'Dependency Injection', route: '/services/dependency-injection' }
+      { label: 'Services CRUD', route: '/services/crud' }
     ]
   },
 

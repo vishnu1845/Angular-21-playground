@@ -5,14 +5,14 @@ import { Search } from '../../../core/services/search';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [RouterLink,  RouterLinkActive, RouterLinkWithHref],
+  imports: [RouterLink, RouterLinkActive, RouterLinkWithHref],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss',
 })
 export class Sidebar {
 
-  constructor(public searchService: Search) {
-    
+  constructor(private searchService: Search) {
+
   }
 
   sidebarItems = computed(() => {

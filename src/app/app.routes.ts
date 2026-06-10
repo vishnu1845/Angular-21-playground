@@ -84,9 +84,9 @@ export const routes: Routes = [
           .then(m => m.ServiceDemo)
       },
       {
-        path: 'services/dependency-injection',
-        loadComponent: () => import('./features/services/dependency-injection/dependency-injection')
-          .then(m => m.DependencyInjection)
+        path: 'services/crud',
+        loadComponent: () => import('./features/services/crud/crud')
+          .then(m => m.Crud)
       },
 
       // ==================== HTTP ====================
