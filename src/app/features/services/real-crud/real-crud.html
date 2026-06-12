@@ -1,0 +1,190 @@
+<div class="container py-4">
+  <h3 class="mb-4 fw-bold">Users CRUD</h3>
+
+  <!-- Toast message -->
+  @if (message()) {
+    <div class="alert alert-info alert-dismissible">
+      {{ message() }}
+      <button type="button" class="btn-close" (click)="message.set('')"></button>
+    </div>
+  }
+
+  <!-- ── Users Table (GET) ─────────────────────────────────── -->
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <span class="fw-semibold">All Users</span>
+      <button class="btn btn-primary btn-sm" (click)="loadUsers()" [disabled]="isLoading()">
+        @if (isLoading()) {
+          <span class="spinner-border spinner-border-sm me-1"></span> Loading...
+        } @else {
+          Refresh
+        }
+      </button>
+    </div>
+
+    <div class="card-body p-0">
+      @if (isLoading() && users().length === 0) {
+        <p class="text-muted p-3 mb-0">Loading users...</p>
+      } @else if (users().length === 0) {
+        <p class="text-muted p-3 mb-0">No users found.</p>
+      } @else {
+        <table class="table table-hover table-bordered mb-0">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (user of users(); track user.id) {
+              <tr
+                [class.table-warning]="editingId() === user.id"
+                [class.table-danger]="deletingId() === user.id">
+                <td>{{ user.id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.phone }}</td>
+                <td>
+                  <button
+                    class="btn btn-warning btn-sm me-1"
+                    (click)="editUser(user)"
+                    [disabled]="deletingId() !== null || isSaving()">
+                    Edit
+                  </button>
+                  <button
+                    class="btn btn-danger btn-sm"
+                    (click)="deleteUser(user.id)"
+                    [disabled]="deletingId() !== null || isSaving()">
+                    @if (deletingId() === user.id) {
+                      <span class="spinner-border spinner-border-sm"></span>
+                    } @else {
+                      Delete
+                    }
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    </div>
+  </div>
+
+  <!-- ── Add / Edit Form (POST / PUT) ───────────────────────── -->
+  <div class="card" [class.border-warning]="editingId() !== null">
+    <div class="card-header" [class.bg-warning]="editingId() !== null">
+      <span class="fw-semibold">
+        @if (editingId() !== null) {
+          ✏️ Edit User #{{ editingId() }}
+        } @else {
+          ➕ Add New User
+        }
+      </span>
+    </div>
+
+    <div class="card-body">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row g-3">
+
+          <!-- Name -->
+          <div class="col-md-6">
+            <label class="form-label" for="name">Name</label>
+            <input
+              id="name"
+              type="text"
+              class="form-control"
+              formControlName="name"
+              [class.is-invalid]="f.name.invalid && f.name.touched"
+              [class.is-valid]="f.name.valid"
+              placeholder="John Doe" />
+            @if (f.name.invalid && f.name.touched) {
+              <div class="invalid-feedback">
+                @if (f.name.errors?.['required']) { Name is required. }
+                @else if (f.name.errors?.['minlength']) { Minimum 3 characters. }
+              </div>
+            }
+          </div>
+
+          <!-- Username -->
+          <div class="col-md-6">
+            <label class="form-label" for="username">Username</label>
+            <input
+              id="username"
+              type="text"
+              class="form-control"
+              formControlName="username"
+              [class.is-invalid]="f.username.invalid && f.username.touched"
+              [class.is-valid]="f.username.valid"
+              placeholder="johndoe" />
+            @if (f.username.invalid && f.username.touched) {
+              <div class="invalid-feedback">Username is required.</div>
+            }
+          </div>
+
+          <!-- Email -->
+          <div class="col-md-6">
+            <label class="form-label" for="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              class="form-control"
+              formControlName="email"
+              [class.is-invalid]="f.email.invalid && f.email.touched"
+              [class.is-valid]="f.email.valid"
+              placeholder="john@example.com" />
+            @if (f.email.invalid && f.email.touched) {
+              <div class="invalid-feedback">
+                @if (f.email.errors?.['required']) { Email is required. }
+                @else if (f.email.errors?.['email']) { Please enter a valid email. }
+              </div>
+            }
+          </div>
+
+          <!-- Phone -->
+          <div class="col-md-6">
+            <label class="form-label" for="phone">Phone</label>
+            <input
+              id="phone"
+              type="text"
+              class="form-control"
+              formControlName="phone"
+              [class.is-invalid]="f.phone.invalid && f.phone.touched"
+              [class.is-valid]="f.phone.valid"
+              placeholder="9876543210" />
+            @if (f.phone.invalid && f.phone.touched) {
+              <div class="invalid-feedback">
+                @if (f.phone.errors?.['required']) { Phone is required. }
+                @else if (f.phone.errors?.['pattern']) { Enter a valid 10-digit phone. }
+              </div>
+            }
+          </div>
+
+          <!-- Buttons -->
+          <div class="col-12">
+            <button type="submit" class="btn me-2"
+              [class.btn-warning]="editingId() !== null"
+              [class.btn-success]="editingId() === null"
+              [disabled]="isSaving()">
+              @if (isSaving()) {
+                <span class="spinner-border spinner-border-sm me-1"></span> Saving...
+              } @else {
+                {{ editingId() !== null ? 'Update User' : 'Add User' }}
+              }
+            </button>
+            @if (editingId() !== null) {
+              <button type="button" class="btn btn-outline-secondary" (click)="cancelEdit()">Cancel</button>
+            } @else {
+              <button type="button" class="btn btn-outline-secondary" (click)="form.reset()">Reset</button>
+            }
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -7,7 +8,7 @@ function mustBeTrue(control: AbstractControl) {
 
 @Component({
   selector: 'app-custom-validators',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './custom-validators.html',
   styleUrl: './custom-validators.scss',
 })

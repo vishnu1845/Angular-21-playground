@@ -1,1 +1,129 @@
-<p>directives works!</p>
+<div class="directives-page">
+  <h2 class="page-title">Angular 21 — Directives Demo</h2>
+
+  <!-- ─── SECTION 1: @if / @else ─── -->
+  <section class="demo-section">
+    <h3 class="section-title">1. &#64;if / &#64;else</h3>
+
+    @if (isLoggedIn()) {
+      <p class="status success">✅ Welcome back, Vishnu!</p>
+    } @else {
+      <p class="status danger">🔒 Please log in to continue.</p>
+    }
+
+    <button class="btn" (click)="toggleLogin()">
+      Toggle Login (currently: {{ isLoggedIn() ? 'Logged In' : 'Logged Out' }})
+    </button>
+  </section>
+
+  <!-- ─── SECTION 2: @for + @empty ─── -->
+  <section class="demo-section">
+    <h3 class="section-title">2. &#64;for / &#64;empty + contextual variables</h3>
+
+    <ul class="user-list">
+      @for (user of users(); track user.id; let i = $index) {
+        <li class="user-item" [class.first]="$first" [class.last]="$last">
+          <span class="index">{{ i + 1 }} / {{ $count }}</span>
+          <span class="name">{{ user.name }}</span>
+          <span class="role-badge" [class]="'badge-' + user.role">{{ user.role }}</span>
+          @if ($first) {
+            <span class="tag">🥇 first</span>
+          }
+          @if ($last) {
+            <span class="tag">🏁 last</span>
+          }
+          <button class="btn-danger" (click)="removeUser(user.id)">Remove</button>
+        </li>
+      } @empty {
+        <li class="empty-state">📭 No users found. Add one below.</li>
+      }
+    </ul>
+
+    <button class="btn" (click)="addUser()">+ Add User</button>
+  </section>
+
+  <!-- ─── SECTION 3: @switch ─── -->
+  <section class="demo-section">
+    <h3 class="section-title">3.&#64;switch / &#64;case</h3>
+
+    <div class="role-switcher">
+      <button class="btn" (click)="switchRole('admin')">Admin</button>
+      <button class="btn" (click)="switchRole('user')">User</button>
+      <button class="btn" (click)="switchRole('guest')">Guest</button>
+    </div>
+
+    @switch (currentRole()) {
+      @case ('admin') {
+        <p class="status success">👑 Admin Panel — full access</p>
+      }
+      @case ('user') {
+        <p class="status info">🧑 User Dashboard — limited access</p>
+      }
+      @default {
+        <p class="status warning">👀 Guest View — read only</p>
+      }
+    }
+  </section>
+
+  <!-- ─── SECTION 4: ngClass ─── -->
+  <section class="demo-section">
+    <h3 class="section-title">4. [ngClass] — multiple conditional classes</h3>
+
+    <div
+      [ngClass]="{ 'box-active': isActive(), 'box-error': hasError(), 'box-base': true }"
+      class="ngclass-box"
+    >
+      I change class dynamically via ngClass
+    </div>
+
+    <div class="toggle-row">
+      <button class="btn" (click)="isActive.set(!isActive())">
+        Toggle Active ({{ isActive() }})
+      </button>
+      <button class="btn" (click)="hasError.set(!hasError())">
+        Toggle Error ({{ hasError() }})
+      </button>
+    </div>
+
+    <!-- Direct class binding — single class, no ngClass needed -->
+    <div [class.active-direct]="isActive()" class="class-binding-box">
+      [class.active] — direct binding for a single class toggle
+    </div>
+  </section>
+
+  <!-- ─── SECTION 5: ngStyle ─── -->
+  <section class="demo-section">
+    <h3 class="section-title">5. [ngStyle] vs [style.x] binding</h3>
+
+    <!-- ngStyle: multiple styles via object -->
+    <p [ngStyle]="{ color: textColor(), 'font-size.px': 18, 'font-weight': 'bold' }">
+      Styled via [ngStyle] — color: {{ textColor() }}
+    </p>
+
+    <!-- Direct style binding: single style -->
+    <p [style.color]="textColor()" [style.font-size.px]="16">
+      Styled via [style.color] — direct binding (preferred for single styles)
+    </p>
+
+    <div class="toggle-row">
+      <button class="btn" (click)="textColor.set('teal')">Teal</button>
+      <button class="btn" (click)="textColor.set('tomato')">Tomato</button>
+      <button class="btn" (click)="textColor.set('slateblue')">Slateblue</button>
+    </div>
+  </section>
+
+  <!-- ─── SECTION 6: Custom Directives ─── -->
+  <section class="demo-section">
+    <h3 class="section-title">6. Custom Directives — Highlight + AutoFocus</h3>
+
+    <p class="highlight-text" appHighlight>Hover me → default blue highlight</p>
+    <p class="highlight-text" [appHighlight]="'orange'">
+      Hover me → orange highlight (input binding)
+    </p>
+
+    <div class="autofocus-demo">
+      <label>AutoFocus directive — input focuses on load:</label>
+      <input appAutoFocus type="text" placeholder="I auto-focused on load!" />
+    </div>
+  </section>
+</div>

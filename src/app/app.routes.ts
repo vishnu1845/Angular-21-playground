@@ -88,6 +88,11 @@ export const routes: Routes = [
         loadComponent: () => import('./features/services/crud/crud')
           .then(m => m.Crud)
       },
+      {
+        path: 'services/real-crud',
+        loadComponent: () => import('./features/services/real-crud/real-crud')
+          .then(m => m.RealCrud)
+      },
 
       // ==================== HTTP ====================
       {

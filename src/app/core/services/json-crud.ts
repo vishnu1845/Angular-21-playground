@@ -3,9 +3,8 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export interface User {
-  id: number;
+  id: string;
   name: string;
-  username: string;
   email: string;
   phone: string;
 }
@@ -13,9 +12,9 @@ export interface User {
 export type UserPayload = Omit<User, 'id'>;
 
 @Injectable({ providedIn: 'root' })
-export class ServiceCrud {
+export class JsonCrud {
   private readonly http = inject(HttpClient);
-  private readonly API = 'https://jsonplaceholder.typicode.com/users';
+  private readonly API = 'http://localhost:3000/users';
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.API);
@@ -25,11 +24,11 @@ export class ServiceCrud {
     return this.http.post<User>(this.API, payload);
   }
 
-  updateUser(id: number, payload: UserPayload): Observable<User> {
+  updateUser(id: string, payload: UserPayload): Observable<User> {
     return this.http.put<User>(`${this.API}/${id}`, payload);
   }
 
-  deleteUser(id: number): Observable<void> {
+  deleteUser(id: string): Observable<void> {
     return this.http.delete<void>(`${this.API}/${id}`);
   }
 }

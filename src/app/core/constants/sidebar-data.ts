@@ -43,7 +43,8 @@ export const SIDEBAR_DATA = [
     isOpen: false,
     children: [
       { label: 'Service Demo', route: '/services/service-demo' },
-      { label: 'Services CRUD', route: '/services/crud' }
+      { label: 'Services Local CRUD', route: '/services/crud' },
+      { label: 'Services CRUD', route: '/services/real-crud' }
     ]
   },
 

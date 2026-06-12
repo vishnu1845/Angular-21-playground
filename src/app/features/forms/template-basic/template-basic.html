@@ -1,1 +1,37 @@
-<p>template-basic works!</p>
+<div class="container d-flex justify-content-center mt-5">
+  <div class="card p-4" style="width: 420px;">
+    <h5 class="mb-4">Sign in</h5>
+
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+
+      <!-- Email -->
+      <div class="mb-3">
+        <label class="form-label">Email address</label>
+        <input
+          type="email"
+          class="form-control"
+          name="email"
+          placeholder="you@example.com"
+          [(ngModel)]="user.email"
+        />
+      </div>
+
+      <!-- Password -->
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          name="password"
+          placeholder="Enter password"
+          [(ngModel)]="user.password"
+        />
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">
+        Sign in
+      </button>
+
+    </form>
+  </div>
+</div>
