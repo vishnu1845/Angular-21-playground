@@ -254,6 +254,11 @@ export const routes: Routes = [
 
       // ==================== EXTRAS ====================
       {
+        path: 'extras/employee-search',
+        loadComponent: () => import('./features/extras/employee-search/employee-search')
+          .then(m => m.EmployeeSearch)
+      },
+      {
         path: 'extras/debugging',
         loadComponent: () => import('./features/extras/debugging/debugging')
           .then(m => m.Debugging)

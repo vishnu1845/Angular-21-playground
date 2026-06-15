@@ -1,1 +1,126 @@
-<p>observables works!</p>
+<div class="container py-4">
+  <h1 class="text-center mb-4 fw-bold ">
+    📡 Angular Observables Demo
+  </h1>
+
+  <!-- ───── 1. CORE OBSERVABLE ───── -->
+  <div class="card shadow-sm mb-4 border-primary">
+    <div class="card-header bg-secondary text-white fw-semibold">
+      1. Core Observable
+      <span class="badge bg-light text-primary ms-2">
+        create · 3 callbacks · sync vs async
+      </span>
+    </div>
+    <div class="card-body">
+      <ul class="list-group list-group-flush">
+        @for (log of coreLogs; track $index) {
+          <li class="list-group-item py-1">{{ log }}</li>
+        }
+      </ul>
+    </div>
+  </div>
+
+  <!-- ───── 2. COLD 🧊 ───── -->
+  <div class="card shadow-sm mb-4 border-info">
+    <div class="card-header bg-info text-white fw-semibold">
+      2. Cold Observable 🧊
+    </div>
+    <div class="card-body">
+      <p class="text-muted mb-2">
+        Each subscriber gets its <strong>own execution</strong> — notice Sub A
+        and Sub B get <strong>different values</strong>.
+      </p>
+      <ul class="list-group list-group-flush">
+        @for (log of coldLogs; track $index) {
+          <li class="list-group-item py-1">{{ log }}</li>
+        }
+      </ul>
+    </div>
+  </div>
+
+  <!-- ───── 3. HOT 🔥 ───── -->
+  <div class="card shadow-sm mb-4 border-danger">
+    <div class="card-header bg-danger text-white fw-semibold">
+      3. Hot Observable 🔥
+    </div>
+    <div class="card-body">
+      <p class="text-muted mb-2">
+        Shared execution — late subscribers <strong>miss earlier values</strong>.
+      </p>
+      <button class="btn btn-outline-danger btn-sm mb-3" (click)="triggerHot()">
+        Emit Hot Value
+      </button>
+      <ul class="list-group list-group-flush">
+        @for (log of hotLogs; track $index) {
+          <li class="list-group-item py-1">{{ log }}</li>
+        }
+      </ul>
+    </div>
+  </div>
+
+  <!-- ───── 4. SUBJECT ───── -->
+  <div class="card shadow-sm mb-4 border-secondary">
+    <div class="card-header bg-secondary text-white fw-semibold">
+      4. Subject
+      <span class="badge bg-light text-secondary ms-2">no memory</span>
+    </div>
+    <div class="card-body">
+      <button class="btn btn-outline-secondary btn-sm mb-3" (click)="emitSubject()">
+        Emit Subject Value
+      </button>
+      <ul class="list-group list-group-flush">
+        @for (log of subjectLogs; track $index) {
+          <li class="list-group-item py-1">{{ log }}</li>
+        }
+      </ul>
+    </div>
+  </div>
+
+  <!-- ───── 5. BEHAVIORSUBJECT ───── -->
+  <div class="card shadow-sm mb-4 border-success">
+    <div class="card-header bg-success text-white fw-semibold">
+      5. BehaviorSubject
+      <span class="badge bg-light text-success ms-2">holds latest value</span>
+    </div>
+    <div class="card-body">
+      <button class="btn btn-outline-success btn-sm mb-3" (click)="emitBehavior()">
+        Emit Behavior Value
+      </button>
+      <ul class="list-group list-group-flush">
+        @for (log of behaviorLogs; track $index) {
+          <li class="list-group-item py-1">{{ log }}</li>
+        }
+      </ul>
+    </div>
+  </div>
+
+  <!-- ───── 6. REPLAYSUBJECT ───── -->
+  <div class="card shadow-sm mb-4 border-warning">
+    <div class="card-header bg-warning text-dark fw-semibold">
+      6. ReplaySubject
+      <span class="badge bg-light text-warning ms-2">replays last N</span>
+    </div>
+    <div class="card-body">
+      <ul class="list-group list-group-flush">
+        @for (log of replayLogs; track $index) {
+          <li class="list-group-item py-1">{{ log }}</li>
+        }
+      </ul>
+    </div>
+  </div>
+
+  <!-- ───── 7. ASYNCSUBJECT ───── -->
+  <div class="card shadow-sm mb-4 border-dark">
+    <div class="card-header bg-dark text-white fw-semibold">
+      7. AsyncSubject
+      <span class="badge bg-light text-dark ms-2">final value only</span>
+    </div>
+    <div class="card-body">
+      <ul class="list-group list-group-flush">
+        @for (log of asyncLogs; track $index) {
+          <li class="list-group-item py-1">{{ log }}</li>
+        }
+      </ul>
+    </div>
+  </div>
+</div>

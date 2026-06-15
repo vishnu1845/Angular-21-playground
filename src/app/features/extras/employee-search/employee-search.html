@@ -1,0 +1,101 @@
+<!-- <div class="container mt-4">
+
+  <div class="mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Search by name, role or department..."
+      (input)="onSearch($event)"
+    />
+  </div>
+
+  <div class="mb-3 d-flex flex-wrap gap-2">
+    @for (dept of departments; track dept) {
+      <button
+        class="btn btn-sm"
+        [class.btn-primary]="activeDept() === dept"
+        [class.btn-outline-secondary]="activeDept() !== dept"
+        (click)="setDept(dept)"
+      >
+        {{ dept }}
+      </button>
+    }
+  </div>
+
+  <p class="text-muted small mb-3">
+    Showing {{ filteredEmployees().length }} of {{ employees.length }} employees
+  </p>
+
+  <div class="row g-3">
+    @for (emp of filteredEmployees(); track emp.id) {
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body">
+
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <div
+                class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-500"
+                style="width: 40px; height: 40px; font-size: 13px; flex-shrink: 0;"
+              >
+                {{ initials(emp.name) }}
+              </div>
+              <div>
+                <div class="fw-500">{{ emp.name }}</div>
+                <div class="text-muted small">{{ emp.role }}</div>
+              </div>
+            </div>
+
+            <span class="badge bg-secondary">{{ emp.dept }}</span>
+            <div class="text-muted small mt-2">{{ emp.salary }} / yr</div>
+
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="col-12 text-center text-muted py-5">
+        No employees match your search.
+      </div>
+    }
+  </div>
+
+</div> -->
+
+<!-- ******************************************************************************************** -->
+
+
+<!-- <div class="container mt-4">
+
+  <input
+    type="text"
+    class="form-control mb-3"
+    placeholder="Search by name..."
+    (input)="onSearch($event)"
+  />
+
+  <ul class="list-group">
+    @for (emp of filteredEmployees(); track emp.id) {
+      <li class="list-group-item">
+        {{ emp.id }} — {{ emp.name }} — {{ emp.role }}
+      </li>
+    } @empty {
+      <li class="list-group-item text-danger">No results found.</li>
+    }
+  </ul>
+
+</div> -->
+
+
+<!-- *********************************************************************************** -->
+
+
+<div class="container">
+    <input type="text" class="form-control me-2" placeholder="Searching...." (input)="onSearch($event)">
+
+    <ul class="list-group mt-3">
+        @for (emp of filteredEmployee(); track emp.id) {
+            <li class="list-group-item">
+                {{emp.id}} - {{emp.name}} - {{emp.role}}
+            </li>
+        }
+    </ul>
+</div>

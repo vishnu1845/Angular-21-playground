@@ -143,6 +143,7 @@ export const SIDEBAR_DATA = [
     icon: 'bi bi-tools',
     isOpen: false,
     children: [
+      { label: 'Employee Search', route: '/extras/employee-search' },
       { label: 'Debugging', route: '/extras/debugging' },
       { label: 'Migration', route: '/extras/migration' },
       { label: 'CSS Preprocessors', route: '/extras/css-preprocessors' }
