@@ -1,0 +1,31 @@
+<!-- <h3>ToDo List</h3>
+<input [value]="newTodo()" (input)="newTodo.set($any($event.target).value)" placeholder="add task..">
+<button (click)="addTodo()">Add</button><hr>
+
+<ul>
+  @for (todo of todos(); track $index) {
+    <li>
+      <span (click)="toggleTodo($index)" [style.text-decoration]="todo.done ? 'line-through' : 'none'">
+        {{ todo.text }}
+      </span>
+      <button (click)="deleteTodo($index)">Delete</button>
+    </li>
+  }
+</ul>
+
+<p>{{ remainingCount() }} task(s) left</p> -->
+
+
+<h3>ToDo List</h3>
+
+<input type="text" placeholder="add task..." [value]="newTodo()" (input)="newTodo.set($event.target.value)">
+<button (click)="addTodo()">Add Task</button><hr>
+
+<ul>
+    @for (todo of todos(); track $index) {
+        <li>
+            <span>{{todo.text}}</span>
+            <button class="btn btn-danger ms-5" (click)="deleteTodo($index)">Delete</button>
+        </li>
+    }
+</ul>

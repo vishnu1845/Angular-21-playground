@@ -259,6 +259,11 @@ export const routes: Routes = [
           .then(m => m.EmployeeSearch)
       },
       {
+        path: 'extras/todo',
+        loadComponent: () => import('./features/extras/todo/todo')
+          .then(m => m.Todo)
+      },
+      {
         path: 'extras/debugging',
         loadComponent: () => import('./features/extras/debugging/debugging')
           .then(m => m.Debugging)

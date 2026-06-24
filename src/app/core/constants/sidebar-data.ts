@@ -6,7 +6,7 @@ export const SIDEBAR_DATA = [
     children: [
       { label: 'Data Binding', route: '/fundamentals/data-binding' },
       { label: 'Directives', route: '/fundamentals/directives' },
-      { label: 'Pipes', route: '/fundamentals/pipes' }
+      { label: 'Pipes', route: '/fundamentals/pipes' },
     ]
   },
 
@@ -143,6 +143,7 @@ export const SIDEBAR_DATA = [
     icon: 'bi bi-tools',
     isOpen: false,
     children: [
+      { label: 'ToDo List', route: '/extras/todo' },
       { label: 'Employee Search', route: '/extras/employee-search' },
       { label: 'Debugging', route: '/extras/debugging' },
       { label: 'Migration', route: '/extras/migration' },

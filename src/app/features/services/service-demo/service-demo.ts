@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { forkJoin } from 'rxjs';
 import { Post, Posts } from '../../../core/services/posts';
 
 @Component({
@@ -24,6 +25,7 @@ export class ServiceDemo implements OnInit {
 
   ngOnInit() {
     this.postsService.getPosts().subscribe(data => this.posts.set(data));
+
   }
 
   // helper for clean template access
@@ -49,4 +51,8 @@ export class ServiceDemo implements OnInit {
 
     this.bookForm.reset();
   }
+
+
+
+
 }
