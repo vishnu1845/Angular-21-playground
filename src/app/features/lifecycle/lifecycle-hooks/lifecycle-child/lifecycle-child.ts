@@ -77,7 +77,7 @@ export class LifecycleChild
       this.buffer('Rendering', 'afterNextRender', 'DOM fully rendered — fires once only');
       // must flush outside Angular — calling zone.run() here would mark views dirty
       this.zone.runOutsideAngular(() =>
-        setTimeout(() => this.zone.run(() => this.flushNow()), 0)
+        setTimeout(() => this.zone.run(() => this.flushNow()), 5000)
       );
     });
 
@@ -91,7 +91,7 @@ export class LifecycleChild
         setTimeout(() => this.zone.run(() => {
           this.renderCount.set(count); // safe: we're outside the render hook now
           this.flushNow();
-        }), 0)
+        }), 8000)
       );
     });
 
@@ -179,7 +179,7 @@ export class LifecycleChild
     if (this.flushScheduled) return;
     this.flushScheduled = true;
     this.zone.runOutsideAngular(() => {
-      setTimeout(() => this.zone.run(() => this.flushNow()), 0);
+      setTimeout(() => this.zone.run(() => this.flushNow()), 8000);
     });
   }
 

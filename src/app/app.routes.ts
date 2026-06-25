@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { MainLayout } from './layout/main-layout/main-layout';
+import { authGuard } from './core/guards/auth-guard';
 
 export const routes: Routes = [
   {
@@ -203,9 +204,9 @@ export const routes: Routes = [
       {
         path: 'auth/route-protection',
         loadComponent: () => import('./features/auth/route-protection/route-protection')
-          .then(m => m.RouteProtection)
+          .then(m => m.RouteProtection),
+        canActivate: [authGuard]   // 🔒 add this line
       },
-
       // ==================== PERFORMANCE ====================
       {
         path: 'performance/trackby',

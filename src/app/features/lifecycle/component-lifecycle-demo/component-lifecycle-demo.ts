@@ -1,5 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { Posts } from '../../../core/services/posts';
+import { Component, } from '@angular/core';
 
 @Component({
   selector: 'app-component-lifecycle-demo',
@@ -8,5 +7,6 @@ import { Posts } from '../../../core/services/posts';
   styleUrl: './component-lifecycle-demo.scss',
 })
 export class ComponentLifecycleDemo {
+
 
 }

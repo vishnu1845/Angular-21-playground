@@ -1,1 +1,28 @@
-<p>interceptors works!</p>
+<div class="container py-4">
+  <h3>🛡️ Interceptor Demo</h3>
+  <p class="text-muted">
+    Click the button, then open <strong>DevTools → Network</strong> and inspect the
+    request headers. The <code>authInterceptor</code> attaches
+    <code>Authorization: Bearer &lt;token&gt;</code> automatically.
+  </p>
+
+  <div class="alert" [class.alert-success]="token" [class.alert-warning]="!token">
+    @if (token) {
+      ✅ Token present — it will be attached to the request.
+    } @else {
+      ⚠️ No token. Login first at <code>/auth/jwt-login</code> to see it attached.
+    }
+  </div>
+
+  <button class="btn btn-primary" (click)="sendRequest()" [disabled]="loading()">
+    @if (loading()) {
+      <span class="spinner-border spinner-border-sm me-2"></span> Sending...
+    } @else {
+      Send Request
+    }
+  </button>
+
+  @if (response()) {
+    <pre class="bg-light border rounded p-3 mt-3"><code>{{ response() }}</code></pre>
+  }
+</div>

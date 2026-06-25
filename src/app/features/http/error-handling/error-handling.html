@@ -1,1 +1,23 @@
-<p>error-handling works!</p>
+<div class="container py-4">
+  <h3>⚠️ Error Handling Demo</h3>
+  <p class="text-muted">
+    Each button triggers an HTTP error. The <code>errorInterceptor</code> catches it
+    globally, maps it to a friendly message, and re-throws a clean object.
+    Check the <strong>console</strong> too, it logs every error.
+  </p>
+
+  <div class="d-flex flex-wrap gap-2 mb-3">
+    <button class="btn btn-outline-warning" (click)="trigger(401)" [disabled]="loading()">401 Unauthorized</button>
+    <button class="btn btn-outline-danger" (click)="trigger(403)" [disabled]="loading()">403 Forbidden</button>
+    <button class="btn btn-outline-secondary" (click)="trigger(404)" [disabled]="loading()">404 Not Found</button>
+    <button class="btn btn-outline-dark" (click)="trigger(500)" [disabled]="loading()">500 Server Error</button>
+  </div>
+
+  @if (loading()) {
+    <div class="spinner-border text-primary"></div>
+  }
+
+  @if (result()) {
+    <div class="alert alert-info mt-2"><code>{{ result() }}</code></div>
+  }
+</div>
