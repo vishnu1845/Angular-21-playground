@@ -194,6 +194,38 @@ export const routes: Routes = [
         loadComponent: () => import('./features/lifecycle/component-lifecycle-demo/component-lifecycle-demo')
           .then(m => m.ComponentLifecycleDemo)
       },
+      
+      // ==================== COMPONENT COMM ====================
+      {
+        path: 'component-comm/parent-child',
+        loadComponent: () => import('./features/component-comm/parent/parent')
+          .then(m => m.Parent)
+      },
+      {
+        path: 'component-comm/view-child',
+        loadComponent: () => import('./features/component-comm/view-child/view-child')
+          .then(m => m.ViewChild)
+      },
+      {
+        path: 'component-comm/view-children',
+        loadComponent: () => import('./features/component-comm/view-children/view-children')
+          .then(m => m.ViewChildren)
+      },
+      {
+        path: 'component-comm/service-comm',
+        loadComponent: () => import('./features/component-comm/service-comm/service-comm')
+          .then(m => m.ServiceComm)
+      },
+      {
+        path: 'component-comm/signal-comm',
+        loadComponent: () => import('./features/component-comm/signal-comm/signal-comm')
+          .then(m => m.SignalComm)
+      },
+      {
+        path: 'component-comm/route-comm',
+        loadComponent: () => import('./features/component-comm/route-comm/route-comm')
+          .then(m => m.RouteComm)
+      },
 
       // ==================== AUTH ====================
       {

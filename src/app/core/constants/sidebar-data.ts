@@ -72,7 +72,19 @@ export const SIDEBAR_DATA = [
       { label: 'API Stream', route: '/rxjs/api-stream' }
     ]
   },
-
+  {
+    title: 'Component Comm',
+    icon: 'bi bi-arrow-left-right',
+    isOpen: false,
+    children: [
+      { label: 'Parent-Child', route: '/component-comm/parent-child' },
+      { label: 'ViewChild', route: '/component-comm/view-child' },
+      { label: 'ViewChildren', route: '/component-comm/view-children' },
+      { label: 'Service Comm', route: '/component-comm/service-comm' },
+      { label: 'Signal Comm', route: '/component-comm/signal-comm' },
+      { label: 'Route Comm', route: '/component-comm/route-comm' }
+    ]
+  },
   {
     title: 'Routing',
     icon: 'bi bi-link-45deg',
@@ -151,3 +163,4 @@ export const SIDEBAR_DATA = [
     ]
   }
 ];
+
