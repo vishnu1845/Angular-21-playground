@@ -1,0 +1,100 @@
+.ops {
+  max-width: 760px;
+  margin: 0 auto;
+  font-family: system-ui, sans-serif;
+  color: #1a1a1a;
+
+  h2 {
+    margin-bottom: 1.25rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  .group {
+    margin-bottom: 1rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid #e2e2e2;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+
+    h3 {
+      margin: 0 0 0.6rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #6b6b6b;
+    }
+
+    button {
+      margin: 0.25rem;
+      padding: 0.45rem 0.85rem;
+      border: 1px solid #cfcfcf;
+      border-radius: 6px;
+      background: #f5f5f5;
+      color: #1a1a1a;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: background 0.15s, border-color 0.15s, transform 0.05s;
+
+      &:hover { background: #eaeaea; border-color: #b8b8b8; }
+      &:active { transform: scale(0.97); }
+      &:focus-visible { outline: 2px solid #4d8dff; outline-offset: 1px; }
+    }
+
+    input {
+      margin: 0.25rem;
+      padding: 0.45rem 0.7rem;
+      border: 1px solid #cfcfcf;
+      border-radius: 6px;
+      background: #fff;
+      color: #1a1a1a;
+      cursor: text;
+      min-width: 240px;
+      font-size: 0.85rem;
+
+      &:focus { outline: 2px solid #4d8dff; outline-offset: 1px; }
+      &::placeholder { color: #999; }
+    }
+  }
+
+  .log {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #1e1e1e;
+    color: #d4d4d4;
+    border-radius: 10px;
+    min-height: 120px;
+
+    .log-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+
+      h3 { color: #9cdcfe; margin: 0; font-size: 0.85rem; text-transform: uppercase; }
+
+      button {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.75rem;
+        border-radius: 5px;
+        border: 1px solid #444;
+        background: #2a2a2a;
+        color: #ccc;
+        cursor: pointer;
+
+        &:hover { background: #383838; }
+      }
+    }
+
+    .line {
+      margin: 0.15rem 0;
+      font-family: monospace;
+      font-size: 0.8rem;
+      white-space: pre-wrap;
+    }
+    .empty { color: #777; font-style: italic; }
+  }
+}

@@ -28,3 +28,5 @@ export class JsonCrud {
     return this.http.delete<void>(`${this.url}/${id}`);
   }
 }
+
+

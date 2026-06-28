@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
-import { forkJoin, of, interval, fromEvent } from 'rxjs';
+import { Component, inject, signal } from '@angular/core';
+import { toObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { of, from, merge, concat, forkJoin, combineLatest, interval, Subject } from 'rxjs';
 import {
-  switchMap, mergeMap, concatMap, exhaustMap,
-  map, filter, debounceTime, distinctUntilChanged,
-  take, catchError, retry, tap, combineLatestWith,
+  map, filter, take, skip, tap, delay, retry, startWith, shareReplay,
+  debounceTime, distinctUntilChanged, catchError,
+  mergeMap, concatMap, switchMap, exhaustMap,
 } from 'rxjs/operators';
 import { RxjsOperator } from '../../../core/services/rxjs-operator';
 
@@ -16,142 +17,226 @@ import { RxjsOperator } from '../../../core/services/rxjs-operator';
 export class Operators {
   private api = inject(RxjsOperator);
 
+  // On-screen log so the demo is visible without DevTools.
+  log = signal<string[]>([]);
+  private emit = (label: string) => (v: unknown) =>
+    this.log.update(l => [`${label} → ${typeof v === 'object' ? JSON.stringify(v) : v}`, ...l]);
+
+  // Reactive inputs driven from the template.
+  search = signal('');
+  private clicks$ = new Subject<void>();
+
   constructor() {
-    // Calls every example so you can check the console one-by-one.
-    this.runAll();
+    // switchMap: search-as-you-type, driven by the search <input>
+    this.searchAsYouType();
+    // exhaustMap: driven by the "spam me" button via submit()
+    this.exhaustMapClicks();
   }
 
-  runAll() {
-    this.parallelCalls();
-    this.dependentCalls();
-    this.searchTyping();
-    this.parallelWrites();
-    this.orderedSaves();
-    this.preventDoubleSubmit();
-    this.combineStreams();
-    this.transformAndFilter();
-    this.handleErrors();
-    this.limited();
-    // autocomplete() needs a real <input>, so call it from the template (see note below).
+  /* ===== CREATION ===== */
+
+  /**
+   * of: Emits the given values one by one and then completes.
+   * Note: of([1,2,3]) emits the whole array as a single value - use `from` to spread it.
+   */
+  ofDemo() {
+    of(10, 20, 30).subscribe(this.emit('of'));
   }
 
-  // ───────────────────────────────────────────────
-  // 1) PARALLEL calls → forkJoin
-  // Fires ALL calls at once, waits for ALL to complete, emits ONE combined object.
-  // Best for "load everything before showing the page". Like Promise.all.
-  // ───────────────────────────────────────────────
-  parallelCalls() {
+  /**
+   * from: Converts an array, Promise, or iterable into a stream, emitting each item separately.
+   */
+  fromDemo() {
+    from([1, 2, 3]).subscribe(this.emit('from'));
+  }
+
+  /* ===== TRANSFORM / FILTER ===== */
+
+  /**
+   * map: Transforms each emitted value one-for-one, like Array.map. Sync only.
+   */
+  mapDemo() {
+    this.api.getPosts().pipe(
+      map((posts: any[]) => posts.length),
+    ).subscribe(this.emit('map'));
+  }
+
+  /**
+   * filter: Passes only the values that satisfy the condition and drops the rest, like Array.filter.
+   */
+  filterDemo() {
+    this.api.getPosts().pipe(
+      map((posts: any[]) => posts.filter(p => p.userId === 1).length),
+    ).subscribe(this.emit('filter'));
+  }
+
+  /**
+   * take(n): Emits the first n values then completes and auto-unsubscribes.
+   */
+  takeDemo() {
+    interval(400).pipe(
+      take(3),
+    ).subscribe(this.emit('take'));
+  }
+
+  /**
+   * skip(n): Ignores the first n values and emits the rest - the opposite of take.
+   */
+  skipDemo() {
+    interval(400).pipe(
+      skip(2),
+      take(3),
+    ).subscribe(this.emit('skip'));
+  }
+
+  /**
+   * tap: Runs a side-effect (like logging) without changing the values flowing through.
+   */
+  tapDemo() {
+    this.api.getUser(1).pipe(
+      tap(u => this.emit('tap (side-effect)')(u.id)),
+      map((u: any) => u.name),
+    ).subscribe(this.emit('tap result'));
+  }
+
+  /**
+   * startWith: Emits a seed value immediately before the source emits - great for a "loading" state.
+   */
+  startWithDemo() {
+    this.api.getUser(1).pipe(
+      map((u: any) => u.name),
+      startWith('loading...'),
+    ).subscribe(this.emit('startWith'));
+  }
+
+  /**
+   * shareReplay: Shares one subscription and caches the last value, so the HTTP call runs once and is reused.
+   */
+  shareReplayDemo() {
+    const cached$ = this.api.getUser(1).pipe(
+      map((u: any) => u.name),
+      shareReplay(1),
+    );
+    cached$.subscribe(this.emit('shareReplay sub#1'));
+    cached$.subscribe(this.emit('shareReplay sub#2')); // reuses the same call
+  }
+
+  /* ===== COMBINATION (parallel vs sequential) ===== */
+
+  /**
+   * merge: Runs streams in parallel and emits values as they arrive, interleaved - order not guaranteed.
+   */
+  mergeDemo() {
+    merge(this.api.getUser(1), this.api.getUser(2))
+      .subscribe(u => this.emit('merge')(u.name));
+  }
+
+  /**
+   * concat: Runs streams sequentially - the next starts only after the previous completes, so order is preserved.
+   */
+  concatDemo() {
+    concat(this.api.getUser(1), this.api.getUser(2))
+      .subscribe(u => this.emit('concat')(u.name));
+  }
+
+  /**
+   * forkJoin: Runs calls in parallel, waits for all to complete, then emits once with the last of each - the RxJS Promise.all.
+   * If one source errors, the whole thing errors, so guard each with catchError.
+   */
+  forkJoinDemo() {
     forkJoin({
-      user: this.api.getUser(),
-      posts: this.api.getPosts(),
-    }).subscribe((data) => console.log('1) forkJoin (parallel) →', data));
+      user: this.api.getUser().pipe(catchError(() => of(null))),
+      posts: this.api.getPosts().pipe(catchError(() => of([] as any[]))),
+    }).subscribe(d => this.emit('forkJoin')(`user=${d.user?.name}, posts=${d.posts.length}`));
   }
 
-  // ───────────────────────────────────────────────
-  // 2) SEQUENTIAL / DEPENDENT calls → switchMap
-  // 2nd call depends on the 1st result (chaining). switchMap also CANCELS
-  // the previous inner call if a new outer value arrives.
-  // ───────────────────────────────────────────────
-  dependentCalls() {
-    this.api.getUser().pipe(
-      switchMap((user) => this.api.getPostsByUser(user.id))
-    ).subscribe((posts) => console.log('2) switchMap (dependent chain) →', posts));
+  /**
+   * combineLatest: Emits the latest value of every source whenever any one emits - perfect for live/dependent values.
+   */
+  combineLatestDemo() {
+    combineLatest([interval(700).pipe(take(3)), interval(1000).pipe(take(2))])
+      .subscribe(([a, b]) => this.emit('combineLatest')(`${a},${b}`));
   }
 
-  // ───────────────────────────────────────────────
-  // 3) switchMap → CANCELS previous. USE FOR: search/autocomplete, latest-wins.
-  // ───────────────────────────────────────────────
-  searchTyping() {
-    of('a', 'ab', 'abc').pipe(
-      switchMap((term) => this.api.getPostsByUser(term.length))
-    ).subscribe((r) => console.log('3) switchMap (latest wins) →', r));
+  /* ===== HIGHER-ORDER FLATTENING (the #1 interview topic) =====
+   * Mnemonic: mergeMap = don't care | concatMap = in line |
+   *           switchMap = cancel old | exhaustMap = ignore new
+   */
+
+  /**
+   * mergeMap: Maps each value to an inner observable and runs them all in parallel - no cancel, order not guaranteed.
+   */
+  mergeMapDemo() {
+    from([1, 2, 3]).pipe(
+      mergeMap(id => this.api.getComments(id)),
+    ).subscribe(c => this.emit('mergeMap')(`${c.length} comments`));
   }
 
-  // ───────────────────────────────────────────────
-  // 4) mergeMap → runs ALL in parallel, no order guarantee. USE FOR: independent writes.
-  // ───────────────────────────────────────────────
-  parallelWrites() {
-    of(1, 2, 3).pipe(
-      mergeMap((id) => this.api.getProfile(id))
-    ).subscribe((r) => console.log('4) mergeMap (parallel) →', r));
+  /**
+   * concatMap: Maps to an inner observable and runs them one at a time in order, waiting for each to complete.
+   */
+  concatMapDemo() {
+    from([1, 2, 3]).pipe(
+      concatMap(id => this.api.getPost(id)),
+    ).subscribe(p => this.emit('concatMap')(p.id));
   }
 
-  // ───────────────────────────────────────────────
-  // 5) concatMap → queues, runs one-by-one IN ORDER. USE FOR: ordered sequential saves.
-  // ───────────────────────────────────────────────
-  orderedSaves() {
-    of(1, 2, 3).pipe(
-      concatMap((id) => this.api.getProfile(id))
-    ).subscribe((r) => console.log('5) concatMap (ordered) →', r));
+  /**
+   * switchMap: Cancels the previous inner observable when a new value arrives, keeping only the latest - ideal for search.
+   * Driven live by the search <input> in searchAsYouType().
+   */
+  private searchAsYouType() {
+    toObservable(this.search).pipe(
+      debounceTime(400),
+      distinctUntilChanged(),
+      switchMap(term => this.api.getPost(Number(term) || 1)),
+      takeUntilDestroyed(),
+    ).subscribe(p => this.emit('switchMap/search')(p.title));
   }
 
-  // ───────────────────────────────────────────────
-  // 6) exhaustMap → IGNORES new values while one is running.
-  // USE FOR: prevent double form submit / spam clicks.
-  // ───────────────────────────────────────────────
-  preventDoubleSubmit() {
-    of('click', 'click', 'click').pipe(
-      exhaustMap(() => this.api.getUser())
-    ).subscribe((r) => console.log('6) exhaustMap (ignore while busy) →', r));
+  /**
+   * exhaustMap: Ignores new values while the current inner observable is still running - great to block double-submits.
+   * Spam the button to see extra clicks ignored while a request is in flight.
+   */
+  private exhaustMapClicks() {
+    this.clicks$.pipe(
+      exhaustMap(() => this.api.getUser(1)),
+      takeUntilDestroyed(),
+    ).subscribe(u => this.emit('exhaustMap')(u.name));
   }
 
-  // ───────────────────────────────────────────────
-  // 7) COMBINATION → combineLatestWith
-  // Emits whenever ANY source emits, using the latest value of each.
-  // ───────────────────────────────────────────────
-  combineStreams() {
-    this.api.getUser().pipe(
-      combineLatestWith(this.api.getPosts())
-    ).subscribe(([user, posts]) => console.log('7) combineLatestWith →', user, posts));
+  /** Button handler that feeds the exhaustMap stream above. */
+  submit() {
+    this.clicks$.next();
   }
 
-  // ───────────────────────────────────────────────
-  // 8) TRANSFORM + FILTER → tap / filter / map
-  // tap = side-effect (logging), filter = drop unwanted, map = reshape data.
-  // ───────────────────────────────────────────────
-  transformAndFilter() {
-    of(1, 2, 3, 4).pipe(
-      tap((n) => console.log('8) tap (before filter) →', n)),
-      filter((n) => n % 2 === 0), // keep evens
-      map((n) => n * 10)          // reshape
-    ).subscribe((r) => console.log('8) map/filter (result) →', r));
+  /* ===== TIMING / SEARCH PAIR =====
+   * debounceTime + distinctUntilChanged are used together inside searchAsYouType():
+   * debounceTime emits only after the source is silent for the given time;
+   * distinctUntilChanged skips consecutive duplicates - so we wait for a pause and ignore unchanged text.
+   */
+
+  /* ===== ERROR / TIMING ===== */
+
+  /**
+   * retry(n): Re-subscribes up to n times if the source errors. Only fires on a real error, not a 200 with empty body.
+   * catchError: catches the final error and swaps in a fallback so the app recovers instead of dying.
+   */
+  retryDemo() {
+    this.api.getBroken().pipe(
+      retry({ count: 2, delay: 800 }),
+      catchError(e => { this.emit('retry gave up')(e.status); return of(null); }),
+    ).subscribe(this.emit('retry'));
   }
 
-  // ───────────────────────────────────────────────
-  // 9) ERROR HANDLING → retry + catchError
-  // retry re-subscribes N times; catchError provides a fallback so the stream doesn't die.
-  // ───────────────────────────────────────────────
-  handleErrors() {
-    this.api.getFailing().pipe(
-      retry(2),                                  // try 2 more times
-      catchError((err) => {
-        console.error('9) catchError (caught) →', err.message);
-        return of('fallback value');             // graceful recovery
-      })
-    ).subscribe((r) => console.log('9) catchError (result) →', r));
+  /**
+   * delay(ms): Time-shifts every emission later; the request still fires immediately, only the result is held.
+   */
+  delayDemo() {
+    this.api.getUser(1).pipe(
+      delay(1000),
+    ).subscribe(u => this.emit('delay (after 1s)')(u.name));
   }
 
-  // ───────────────────────────────────────────────
-  // 10) LIMITING emissions → take
-  // Auto-completes after N emissions (good for avoiding manual unsubscribe).
-  // ───────────────────────────────────────────────
-  limited() {
-    interval(1000).pipe(
-      take(3) // only first 3 ticks, then completes
-    ).subscribe((n) => console.log('10) take →', n));
-  }
-
-  // ───────────────────────────────────────────────
-  // 11) RATE-LIMITING → debounceTime + distinctUntilChanged
-  // Classic autocomplete: wait for typing pause, ignore duplicate terms, then call API.
-  // Needs a real <input>. Wire it from the template: (input)="autocomplete($event.target)"
-  // ───────────────────────────────────────────────
-  autocomplete(input: HTMLInputElement) {
-    fromEvent(input, 'input').pipe(
-      map((e) => (e.target as HTMLInputElement).value),
-      debounceTime(300),          // wait 300ms after last keystroke
-      distinctUntilChanged(),     // skip duplicate term
-      switchMap((term) => this.api.getPostsByUser(term.length))
-    ).subscribe((r) => console.log('11) autocomplete →', r));
-  }
+  clear() { this.log.set([]); }
 }

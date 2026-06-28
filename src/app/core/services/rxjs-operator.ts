@@ -1,29 +1,23 @@
-import { Injectable } from '@angular/core';
-import { of, throwError, Observable } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
+/**
+ * Thin data layer. Real network calls against JSONPlaceholder.
+ * Each GET completes after one response, which makes it ideal for
+ * demonstrating forkJoin / concat / flattening operators.
+ */
 @Injectable({ providedIn: 'root' })
 export class RxjsOperator {
-  // Each method returns an Observable that mimics an HTTP call (HttpClient also returns Observables).
-  getUser(): Observable<{ id: number; name: string }> {
-    return of({ id: 1, name: 'Alex' }).pipe(delay(500));
-  }
+  private http = inject(HttpClient);
+  private base = 'https://jsonplaceholder.typicode.com';
 
-  getPosts(): Observable<string[]> {
-    return of(['post-1', 'post-2']).pipe(delay(800));
-  }
+  getUser(id = 1): Observable<any>             { return this.http.get(`${this.base}/users/${id}`); }
+  getPosts(): Observable<any>                  { return this.http.get(`${this.base}/posts`); }
+  getPost(id: number): Observable<any>         { return this.http.get(`${this.base}/posts/${id}`); }
+  getComments(postId: number): Observable<any> { return this.http.get(`${this.base}/posts/${postId}/comments`); }
+  getTodos(): Observable<any>                  { return this.http.get(`${this.base}/todos`); }
 
-  // Dependent call: needs a userId from a previous response.
-  getPostsByUser(userId: number): Observable<string[]> {
-    return of([`u${userId}-post-1`, `u${userId}-post-2`]).pipe(delay(600));
-  }
-
-  getProfile(userId: number): Observable<{ bio: string }> {
-    return of({ bio: `bio of user ${userId}` }).pipe(delay(400));
-  }
-
-  // Used to demonstrate error handling.
-  getFailing(): Observable<never> {
-    return throwError(() => new Error('API failed')).pipe(delay(300));
-  }
+  // Guaranteed 404 -> used to actually trigger retry/catchError.
+  getBroken(): Observable<any>                 { return this.http.get(`${this.base}/INVALID_ENDPOINT`); }
 }

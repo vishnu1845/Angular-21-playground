@@ -1,1 +1,62 @@
-<p>operators works!</p>
+<section class="ops">
+  <h2>RxJS Operators Playground</h2>
+
+  <div class="group">
+    <h3>Creation</h3>
+    <button (click)="ofDemo()">of</button>
+    <button (click)="fromDemo()">from</button>
+  </div>
+
+  <div class="group">
+    <h3>Transform / Filter</h3>
+    <button (click)="mapDemo()">map</button>
+    <button (click)="filterDemo()">filter</button>
+    <button (click)="takeDemo()">take</button>
+    <button (click)="skipDemo()">skip</button>
+    <button (click)="tapDemo()">tap</button>
+    <button (click)="startWithDemo()">startWith</button>
+    <button (click)="shareReplayDemo()">shareReplay</button>
+  </div>
+
+  <div class="group">
+    <h3>Combination</h3>
+    <button (click)="mergeDemo()">merge</button>
+    <button (click)="concatDemo()">concat</button>
+    <button (click)="forkJoinDemo()">forkJoin</button>
+    <button (click)="combineLatestDemo()">combineLatest</button>
+  </div>
+
+  <div class="group">
+    <h3>Higher-order Flattening</h3>
+    <button (click)="mergeMapDemo()">mergeMap</button>
+    <button (click)="concatMapDemo()">concatMap</button>
+    <button (click)="submit()">exhaustMap (spam me)</button>
+  </div>
+
+  <div class="group">
+    <h3>switchMap + Search (debounce + distinct)</h3>
+    <input
+      type="text"
+      placeholder="type a post id 1-100"
+      [value]="search()"
+      (input)="search.set($any($event.target).value)" />
+  </div>
+
+  <div class="group">
+    <h3>Error / Timing</h3>
+    <button (click)="delayDemo()">delay</button>
+    <button (click)="retryDemo()">retry</button>
+  </div>
+
+  <div class="log">
+    <div class="log-head">
+      <h3>Output</h3>
+      <button (click)="clear()">clear</button>
+    </div>
+    @for (line of log(); track $index) {
+      <pre class="line">{{ line }}</pre>
+    } @empty {
+      <p class="empty">Click an operator to see emissions.</p>
+    }
+  </div>
+</section>

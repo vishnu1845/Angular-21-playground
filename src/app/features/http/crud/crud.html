@@ -1,121 +1,85 @@
-<!-- <div class="container py-4">
-  <h3 class="mb-4 fw-bold">JSON Server CRUD</h3>
+<!-- <div class="container">
+  <h3 class="mb-3 fw-bold">JSON server CRUD</h3>
 
-  <div class="card mb-4">
-    <div class="card-header fw-semibold">All Users</div>
-    <div class="card-body p-0">
-      @if (users().length === 0) {
-        <p class="text-muted p-3 mb-0">No users found.</p>
-      } @else {
-        <table class="table table-hover table-bordered mb-0">
-          <thead class="table-dark">
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (user of users(); track user.id) {
-              <tr [class.table-warning]="editingId() === user.id">
-                <td>{{ user.id }}</td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.phone }}</td>
-                <td>
-                  <button class="btn btn-warning btn-sm me-1" (click)="editUser(user)">Edit</button>
-                  <button class="btn btn-danger btn-sm" (click)="deleteUser(user.id)">Delete</button>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
+  <table class="table table-hover table-bordered">
+    <thead class="table-dark">
+      <tr>
+        @for (th of tableHead; track $index) {
+          <th>{{ th }}</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (user of users(); track user.id) {
+        <tr [class.table-warning]="editingId() === user.id">
+          <td>{{ user.id }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phone }}</td>
+          <td>
+            <button class="btn btn-warning btn-sm me-1" (click)="onEdid(user)">Edit</button>
+            <button class="btn btn-danger btn-sm" (click)="onDelete(user.id)">Delete</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
+      <input type="text" formControlName="name" class="form-control" placeholder="Alex"
+        [class.is-invalid]="f.name.invalid && f.name.touched"
+        [class.is-valid]="f.name.valid">
+
+      @if (f.name.invalid && f.name.touched) {
+        <div class="invalid-feedback"><i>Name is Required</i></div>
       }
     </div>
-  </div>
 
-  <div class="card" [class.border-warning]="editingId() !== null">
-    <div class="card-header fw-semibold" [class.bg-warning]="editingId() !== null">
-      {{ editingId() !== null ? 'Edit User' : 'Add New User' }}
-    </div>
+    <div class="form-group">
+      <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+      <input type="email" formControlName="email" class="form-control" placeholder="alex@123Gmail.com"
+        [class.is-invalid]="f.email.invalid && f.email.touched"
+        [class.is-valid]="f.email.valid">
 
-    <div class="card-body">
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div class="row g-3">
-
-          <div class="col-md-4">
-            <label class="form-label" for="name">Name</label>
-            <input
-              id="name"
-              type="text"
-              class="form-control"
-              formControlName="name"
-              [class.is-invalid]="f.name.invalid && f.name.touched"
-              placeholder="John Doe" />
-            @if (f.name.invalid && f.name.touched) {
-              <div class="invalid-feedback">Name is required.</div>
-            }
-          </div>
-
-          <div class="col-md-4">
-            <label class="form-label" for="email">Email</label>
-            <input
-              id="email"
-              type="email"
-              class="form-control"
-              formControlName="email"
-              [class.is-invalid]="f.email.invalid && f.email.touched"
-              placeholder="john@example.com" />
-            @if (f.email.invalid && f.email.touched) {
-              <div class="invalid-feedback">
-                @if (f.email.errors?.['required']) { Email is required. }
-                @else { Enter a valid email. }
-              </div>
-            }
-          </div>
-
-          <div class="col-md-4">
-            <label class="form-label" for="phone">Phone</label>
-            <input
-              id="phone"
-              type="text"
-              class="form-control"
-              formControlName="phone"
-              [class.is-invalid]="f.phone.invalid && f.phone.touched"
-              placeholder="9876543210" />
-            @if (f.phone.invalid && f.phone.touched) {
-              <div class="invalid-feedback">
-                @if (f.phone.errors?.['required']) { Phone is required. }
-                @else { Enter a valid 10-digit phone. }
-              </div>
-            }
-          </div>
-
-          <div class="col-12">
-            <button type="submit" class="btn me-2"
-              [class.btn-warning]="editingId() !== null"
-              [class.btn-success]="editingId() === null">
-              {{ editingId() !== null ? 'Update User' : 'Add User' }}
-            </button>
-            @if (editingId() !== null) {
-              <button type="button" class="btn btn-outline-secondary" (click)="cancelEdit()">Cancel</button>
-            }
-          </div>
-
+      @if (f.email.invalid && f.email.touched) {
+        <div class="invalid-feedback">
+          @if (f.email.errors?.['required']) {
+            <i>Email is required</i>
+          } @else if (f.email.errors?.['email']) {
+            <i>Pls enter valid email</i>
+          }
         </div>
-      </form>
+      }
     </div>
-  </div>
-</div>
 
- -->
+    <div class="form-group">
+      <label for="phone" class="form-label">Phone <span class="text-danger">*</span></label>
+      <input type="text" formControlName="phone" class="form-control" placeholder="9322208772"
+        [class.is-invalid]="f.phone.invalid && f.phone.touched"
+        [class.is-valid]="f.phone.valid">
+
+      @if (f.phone.invalid && f.phone.touched) {
+        <div class="invalid-feedback"><i>Phone is required</i></div>
+      }
+    </div>
+
+    <div class="form-group mt-3">
+      <button type="submit" class="btn btn-primary me-2">
+        {{ isEditing ? 'Update' : 'Submit' }}
+      </button>
+      @if (isEditing) {
+        <button type="button" class="btn btn-dark" (click)="cancelEdit()">Cancel</button>
+      }
+    </div>
+  </form>
+</div> -->
+
 
  <!-- *************************************************************************************************************************** -->
 
-
- <div class="container py-4">
+<div class="container">
   <h3 class="mb-4 fw-bold">JSON Server CRUD</h3>
 
   <!-- Users Table -->
@@ -153,43 +117,78 @@
   </div>
 
   <!-- Add / Edit Form -->
-  <div class="card" [class.border-warning]="isEditing()">
-    <div class="card-header fw-semibold" [class.bg-warning]="isEditing()">
-      {{ isEditing() ? 'Edit User' : 'Add New User' }}
+  <div class="card" [class.border-warning]="isEditing">
+    <div class="card-header fw-semibold" [class.bg-warning]="isEditing">
+      {{ isEditing ? 'Edit User' : 'Add New User' }}
     </div>
 
     <div class="card-body">
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="row g-3">
-          @for (field of fields; track field.name) {
-            <div class="col-md-4">
-              <label class="form-label" [for]="field.name">{{ field.label }}</label>
-              <input
-                [id]="field.name"
-                [type]="field.type"
-                class="form-control"
-                [formControlName]="field.name"
-                [class.is-invalid]="isInvalid(field.name)"
-                [placeholder]="field.placeholder" />
-              @if (isInvalid(field.name)) {
-                <div class="invalid-feedback">
-                  {{ field.label }} is invalid or required.
-                </div>
-              }
-            </div>
-          }
+
+          <!-- Name -->
+          <div class="col-md-4">
+            <label class="form-label" for="name">Name</label>
+            <input
+              id="name"
+              type="text"
+              class="form-control"
+              formControlName="name"
+              [class.is-invalid]="f.name.invalid && f.name.touched"
+              placeholder="John Doe" />
+            @if (f.name.invalid && f.name.touched) {
+              <div class="invalid-feedback">Name is required.</div>
+            }
+          </div>
+
+          <!-- Email -->
+          <div class="col-md-4">
+            <label class="form-label" for="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              class="form-control"
+              formControlName="email"
+              [class.is-invalid]="f.email.invalid && f.email.touched"
+              placeholder="john@example.com" />
+            @if (f.email.invalid && f.email.touched) {
+              <div class="invalid-feedback">
+                @if (f.email.errors?.['required']) { Email is required. }
+                @else { Enter a valid email. }
+              </div>
+            }
+          </div>
+
+          <!-- Phone -->
+          <div class="col-md-4">
+            <label class="form-label" for="phone">Phone</label>
+            <input
+              id="phone"
+              type="text"
+              class="form-control"
+              formControlName="phone"
+              [class.is-invalid]="f.phone.invalid && f.phone.touched"
+              placeholder="9876543210" />
+            @if (f.phone.invalid && f.phone.touched) {
+              <div class="invalid-feedback">
+                @if (f.phone.errors?.['required']) { Phone is required. }
+                @else { Enter a valid 10-digit phone. }
+              </div>
+            }
+          </div>
 
           <!-- Buttons -->
           <div class="col-12">
             <button type="submit" class="btn me-2"
-              [class.btn-warning]="isEditing()"
-              [class.btn-success]="!isEditing()">
-              {{ isEditing() ? 'Update User' : 'Add User' }}
+              [class.btn-warning]="isEditing"
+              [class.btn-success]="!isEditing">
+              {{ isEditing ? 'Update User' : 'Add User' }}
             </button>
-            @if (isEditing()) {
+            @if (isEditing) {
               <button type="button" class="btn btn-outline-secondary" (click)="cancelEdit()">Cancel</button>
             }
           </div>
+
         </div>
       </form>
     </div>
