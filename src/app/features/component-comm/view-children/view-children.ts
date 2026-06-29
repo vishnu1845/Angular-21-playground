@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './view-children.html',
   styleUrl: './view-children.scss',
 })
-export class ViewChildren {
+export class ViewChildrenDemo {
 
 }

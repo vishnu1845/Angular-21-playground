@@ -1,1 +1,25 @@
-<p>view-child works!</p>
+<div class="container py-3">
+  <h5 class="mb-3">ViewChild: Old vs New</h5>
+
+  <app-child></app-child>
+
+  <!-- OLD WAY: values are SNAPSHOTS, refreshed only when you click -->
+  <div class="mt-3 p-2 border-start border-3 border-secondary">
+    <h6>Old way (&#64;ViewChild) — on demand</h6>
+    <p>Message: <strong>{{ oldMessage }}</strong></p>
+    <p>Greeting: <strong>{{ oldGreeting }}</strong></p>
+    <button class="btn btn-sm btn-secondary" (click)="readOld()">
+      Re-read child (old way)
+    </button>
+  </div>
+
+  <!-- NEW WAY: message auto-updates; greeting is a method call on demand -->
+  <div class="mt-3 p-2 border-start border-3 border-primary">
+    <h6>New way (viewChild signal) — reactive</h6>
+    <p>Message (auto): <strong>{{ newMessage() }}</strong></p>
+    <p>Greeting: <strong>{{ newGreeting() }}</strong></p>
+    <button class="btn btn-sm btn-primary" (click)="readNew()">
+      Read greeting (new way)
+    </button>
+  </div>
+</div>

@@ -1,1 +1,16 @@
-<p>parent works!</p>
+<div class="container py-3">
+  <h5 class="mb-3">Parent Component</h5>
+
+  <app-child
+    [userName]="parentName()"
+    (messageEvent)="onMessageReceived($event)"
+    #childRef>
+  </app-child>
+
+  <div class="mt-3 ps-2 border-start border-3 border-primary">
+    <p class="mb-1">From Output: <strong>{{ outputMessage() }}</strong></p>
+    <p class="mb-0">From Signal: <strong>{{ childRef.message() }}</strong></p>
+  </div>
+</div>
+
+

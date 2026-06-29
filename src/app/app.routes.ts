@@ -194,7 +194,7 @@ export const routes: Routes = [
         loadComponent: () => import('./features/lifecycle/component-lifecycle-demo/component-lifecycle-demo')
           .then(m => m.ComponentLifecycleDemo)
       },
-      
+
       // ==================== COMPONENT COMM ====================
       {
         path: 'component-comm/parent-child',
@@ -204,12 +204,12 @@ export const routes: Routes = [
       {
         path: 'component-comm/view-child',
         loadComponent: () => import('./features/component-comm/view-child/view-child')
-          .then(m => m.ViewChild)
+          .then(m => m.ViewChildDemo)
       },
       {
         path: 'component-comm/view-children',
         loadComponent: () => import('./features/component-comm/view-children/view-children')
-          .then(m => m.ViewChildren)
+          .then(m => m.ViewChildrenDemo)
       },
       {
         path: 'component-comm/service-comm',

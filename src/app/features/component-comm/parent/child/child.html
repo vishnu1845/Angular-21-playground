@@ -1,1 +1,14 @@
-<p>child works!</p>
+<div class="border rounded p-3">
+  <h6 class="text-secondary mb-3">Child Component</h6>
+
+  <p class="mb-2">Received from Parent: <strong>{{ userName() }}</strong></p>
+
+  <div class="d-flex gap-2">
+    <button class="btn btn-sm btn-primary" (click)="sendMessageViaOutput()">
+      Send via Output
+    </button>
+    <button class="btn btn-sm btn-info" (click)="sendMessageViaSignal()">
+      Send via template reference
+    </button>
+  </div>
+</div>
